@@ -1,0 +1,33 @@
+分析原因：
+程序变黑，是因为Qt应用程序的消息循环，因为在拷贝大文件时，没法处理其他的控件信号，导致程序暂时变得无法响应，直到拷贝文件完成才会继续响应。或者说，我们的拷贝文件的槽函数do_copy执行时间太长了。
+
+解决方法：
+第一种：
+QApplication::processEvents(QEventLoop::AllEvents);
+同时，把拷贝按钮禁用btn_copy->setEnabled(false);
+注意：QEventLoop::ExcludeUserInputEvents不行。
+
+第二种：
+0毫秒定时器方法：
+在点击copy按钮时，执行槽函数do_copy()，在槽函数内调用QTimer类的timerId=startTimer(0)，产生一个0毫秒定时器。
+然后在MyWidget窗体类中重写一个void timerEvent(QTimerEvent * event)的事件函数，在函数内做文件拷贝。
+void MyForm::timerEvent(QTimerEvent * event)
+{
+    //系统不忙时
+    if(event->timerId() == timerId)
+    {
+                QByteArray buf;
+                buf = srcFile.read(4096);
+                desFile.write(buf);
+                count += buf.length();
+                pgb->setValue(count);//改变进度条当前位置
+                if(count == srcFileLength)
+                {
+                    killTimer(timerId);
+                    srcFile.close();
+                    desFile.close();
+                    btn_copy->setEnabled(true);
+                }
+    }
+}
+
