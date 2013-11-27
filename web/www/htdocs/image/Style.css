@@ -1,0 +1,648 @@
+
+
+BODY,FORM,TABLE,TD,FONT,INPUT,SELECT,A{
+	font-family		: 楷体_GB2312;
+	font-size		: 12pt;
+	color			: #0c0000;
+	white-space		: nowrap;
+	border-collapse	: collapse;
+	cursor			: default;
+}
+
+
+BODY,FORM{
+	margin			: 0px;
+	padding			: 0px;
+	border			: 0px;
+	background-color: #fffff9; 
+}
+
+BODY{
+	width:1024;height:768;
+	PADDING-RIGHT: 20px; 
+	PADDING-LEFT: 20px;
+	}
+
+
+TABLE,TD{
+	margin			: 0px;
+	padding			: 0px;
+	border-color	: #000066;
+	
+}
+
+TABLE
+{
+	text-align		:left
+
+}
+
+
+TD{
+	padding			: 0px 1px 0px 1px;
+	height			: 23px;
+}
+
+
+FONT{
+	margin-bottom	: 2px;
+	padding			: 3px 2px 0px 3px;
+	height			: 19px;
+	vertical-align	: bottom;
+}
+
+
+INPUT{
+	margin			: 1px 0px 0px 0px;
+	padding			: 2px 2px 0px 2px;
+    
+	cursor			: text;
+	vertical-align	: bottom;
+}
+
+
+SELECT{
+	margin			: 2px 0px 0px 0px;
+}
+
+.subtitle{
+	font-size:15pt;
+}
+.title
+{
+	font-size:25px;
+	font-family :楷体_GB2312;
+	
+}
+
+TD.naiyopadding{
+	padding			: 2px 3px 2px 3px;
+	padding-left    : 25px;
+}
+
+TD.naiyopaddingc{
+	padding			: 2px 3px 2px 3px;
+	text-align      : center;
+}
+TD.naiyopaddingr
+{
+	padding			: 2px 3px 2px 3px;
+	text-align      : right;
+	padding-right   : 25px;
+}
+TD.midashipadding{
+	padding			: 6px 3px 0px 3px;
+	color			: #000000;
+	background-color: #99CCFF;
+	vertical-align	: middle;
+	padding-left    : 25px;
+}
+.red{
+	color			: #FF0000;
+}
+INPUT.btnm{
+	margin-bottom	: 3px;
+	padding			: 0px;
+	height			: 19px;
+	width			: 100px;
+	vertical-align	: middle;
+	cursor			: pointer;
+}
+
+/*.vsel{
+	padding-top		: 0px;
+	vertical-align	: top;
+}
+
+
+
+
+INPUT.iptc{
+	text-align		: center;
+}
+
+
+INPUT.iptr{
+	text-align		: right;
+}
+
+
+A:link
+{
+	color			: #3333FF;
+	text-decoration	: underline;
+	cursor			: pointer;
+}
+
+
+A:visited
+{
+	color			: #3333FF;
+	text-decoration	: underline;
+	cursor			: pointer;
+}
+
+
+A:hover
+{
+	color			: #3333FF;
+	text-decoration	: underline;
+	cursor			: pointer;
+}
+	
+A:sortk
+{
+	font-size		:7pt;
+	color			:#004593;
+	border			:1px solid #004593;
+	background-color:#bdd5d3;
+	cursor			:pointer;
+	vertical-align	:middle;
+}
+		
+
+INPUT.btnss{  
+	margin-bottom	: 3px;
+	padding			: 0px;
+	height			: 18px;
+	width			: 40px;
+	vertical-align	: middle;
+	cursor			: pointer;
+}
+
+
+INPUT.btns{  
+	margin-bottom	: 3px;
+	padding			: 0px;
+	height			: 19px;
+	width			: 60px;
+	vertical-align	: middle;
+	cursor			: pointer;
+}
+
+
+
+INPUT.btnl{
+	margin-bottom	: 3px;
+	padding			: 0px;
+	height			: 19px;
+	width			: 150px;
+	vertical-align	: middle;
+	cursor			: pointer;
+}
+
+INPUT.btnf{
+	margin-bottom	: 3px;
+	padding			: 0px;
+	height			: 19px;
+	vertical-align	: middle;
+	cursor			: pointer;
+}
+
+
+.ckrd{
+	margin-bottom	: 3px;
+	margin-right	: 3px;
+	height			: 13px;
+	width			: 13px;
+	cursor			: default;
+	vertical-align	: bottom;
+}
+
+
+TD.midashi{
+	padding			: 6px 3px 0px 3px;
+	color			: #000000;
+	background-color: #FFB6C1;
+	vertical-align	: top;
+}
+
+TD.midashic{
+	padding			: 6px 3px 0px 3px;
+	color			: #000000;
+	background-color: #FFB6C1;
+	text-align		: center;
+	vertical-align	: top;
+}
+
+
+TD.midashirr{
+	padding			: 6px 3px 0px 3px;
+	color			: #000000;
+	background-color: #FFB6C1;
+	text-align		: right;
+	vertical-align	: top;
+}
+
+
+
+TD.vtd{
+	padding			: 0px 2px 4px 2px;
+}
+
+TD.vtdc{
+	padding			: 0px 2px 4px 2px;
+	text-align		: center;
+}
+
+
+TD.vtdr{
+	padding			: 0px 2px 4px 2px;
+	text-align		: right;
+}
+
+A:link{
+	color			: #3333FF;
+	text-decoration	: underline;
+	cursor			: pointer;
+}
+
+A:visited{
+	color			: #3333FF;
+	text-decoration	: underline;
+	cursor			: pointer;
+}
+
+A:hover{
+	color			: #3333FF;
+	text-decoration	: underline;
+	cursor			: pointer;
+}
+
+
+A.sortk{
+	font-size		: 7pt;
+	color			: #004593;
+	border			: 1px solid #004593;
+	background-color: #bdd5d3;
+	cursor			: pointer;
+	vertical-align	: middle;
+}
+
+
+.odd{
+	background-color: #FFFFFF;
+}
+
+.even{
+	background-color: #e5ecf5;
+}
+
+
+.gki{
+	background-color: #FFF0F5;
+}
+
+
+
+.outcol1{
+
+	border			: 0px solid #777777;
+	text-align		: left;
+}
+
+
+.outcol1c{
+
+	border			: 0px solid #777777;
+	text-align		: center;
+}
+
+
+.outcol1r{
+
+	border			: 0px solid #777777;
+	text-align		: right;
+}
+
+
+
+
+.outcol2{
+	border			: 1px solid #777777;
+	background-color: #FFFFE0;
+}
+ 
+
+.outcol2c{
+	border			: 1px solid #777777;
+	background-color: #FFFFE0;
+}
+
+
+.outcol2r{
+	border			: 1px solid #777777;
+	background-color: #FFFFE0;
+}
+
+
+
+
+.outinp1{
+	background-color: #FFFFE0;
+}
+
+
+.outinp1c{
+	background-color: #FFFFE0;
+	text-align		: center;
+}
+
+.outinp1r{
+	background-color: #FFFFE0;
+	text-align		: right;
+}
+
+
+
+.outinp2{
+	background-color: #FFFFE0;
+}
+
+
+.outinp2c{
+	background-color: #FFFFE0;
+	
+}
+
+.outinp2r{
+	background-color: #FFFFE0;
+	text-align		: right;
+}
+
+
+.outsel1{
+	margin			: 0px;
+	padding			: 2px 3px 1px 3px;
+	border			: 1px solid #777777;
+	background-color: #FFFFE0;
+}
+
+.outsel2{
+	margin			: 0px;
+	padding			: 2px 3px 1px 3px;
+	border			: 1px solid #777777;
+	background-color: #FFFFE0;
+}
+
+
+.outjs{
+	height			: 19px;
+	margin-bottom	: 1px;
+	padding			: 3px 3px 1px 3px;
+	border			: 1px solid #777777;
+	background-color: #FFFFE0;
+}
+
+
+.outjsc{
+	height			: 19px;
+	margin-bottom	: 1px;
+	padding			: 3px 3px 1px 3px;
+	border			: 1px solid #777777;
+	background-color: #FFFFE0;
+}
+
+.outjsr{
+	height			: 19px;
+	margin-bottom	: 1px;
+	padding			: 3px 3px 1px 3px;
+	border			: 1px solid #777777;
+	background-color: #FFFFE0;
+}
+
+
+.header {
+	width			: 100%;
+	margin			: 0px;
+	padding			: 0px 3px 0px 3px;
+	border			: 0px;
+	border-bottom	: 1px solid #63778f;
+	vertical-align	: middle;
+	background-color: #99CCFF;
+}
+
+TD.header1{
+	vertical-align	: middle;
+	padding			: 10px 20px 5px 20px;
+	height			: 44px;
+
+}
+
+
+
+.copyright {
+	width			: 100%;
+	margin			: 0px;
+	padding			: 3px 3px 0px 3px;
+	border-bottom	: 1px solid #63778f;
+	vertical-align	: middle;
+	text-align		: center;
+	background-color: #99CCFF; 
+	height			: 15px; 
+}
+TD.copyright1{
+	text-align		: center;
+	color			: #FFFFFF;
+	vertical-align	: middle;
+}
+
+
+.menu {
+	width			: 100%;
+	margin			: 0px;
+	padding			: 3px 10px 0px 10px;
+	vertical-align	: middle;
+	background-color: #99CCFF;
+	height			: 26px; 
+}
+
+.menub{
+	margin			: 0px;
+	padding			: 2px 3px 0px 3px;
+	vertical-align	: bottom;
+	height			: 19px;
+}
+
+#business{
+	padding			: 20px;
+	height			: 549px;
+	width			: 1000px;
+	text-align		: left;
+	border-bottom	: 1px solid #63778f;
+}
+
+
+#listbase{
+	height			: 480px;
+}
+
+.tblbase{
+	width			: 100%;
+	background-color: #FFFFFF;
+	border			: 1px solid #000066;
+}
+
+.marginAdd{
+	margin-left		:10px;
+	margin-right	:10px;
+}
+
+
+
+
+
+
+.req{
+	color			: #FF0000;
+	padding-left	: 2px;
+}
+
+
+TD.midashil{
+	padding			: 6px 3px 0px 3px;
+	color			: #000000;
+	background-color: #99CCFF;
+	vertical-align	: middle;
+}
+
+
+TD.midashim{
+	padding			: 6px 3px 0px 3px;
+	color			: #000000;
+	background-color: #99CCFF;
+	text-align		: center;
+	vertical-align	: middle;
+}
+
+
+.midashimgv{
+	padding			: 6px 3px 0px 3px;
+	color			: #000000;
+	background-color: #99CCFF;
+	text-align		: center;
+	vertical-align	: middle;
+}
+
+
+
+TD.midashir{
+	padding			: 6px 3px 0px 3px;
+	color			: #000000;
+	background-color: #99CCFF;
+	text-align		: right;
+	vertical-align	: middle;
+}
+
+
+TD.midashilb{
+	padding			: 6px 3px 0px 3px;
+	color			: #000000;
+	background-color: #99CCFF;
+	vertical-align	: bottom;
+}
+
+
+
+
+TD.naiyo{
+	padding			: 2px 3px 2px 3px;
+}
+
+TD.naiyor{
+	padding			: 2px 3px 2px 3px;
+	text-align      : right;
+}
+*/
+
+
+
+/*TD.naiyopadding1{
+	padding			: 2px 3px 2px 3px;
+	padding-left    : 50px;
+}
+
+
+
+.accentBold{
+	color:#0000FF;
+	/*font-weight:bold;
+}
+
+.stressYellow{
+	background-color:#FFFF66;
+}*/
+
+/*.subtitlec{
+	font-size:12pt;
+	font-weight:bold;
+	text-align: center;
+	HEIGHT: 35px
+ }
+ 
+ .msg{
+	padding	: 4px 20px 7px 20px;
+	HEIGHT: auto;
+ }
+.funbtn{
+	padding	: 4px 20px 5px 20px;
+	HEIGHT: 28px;
+ }
+ 
+A:link {
+	COLOR: #336699; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #336699; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #66ccff; TEXT-DECORATION: underline
+}
+A:hover {
+	COLOR: #66ccff; TEXT-DECORATION: underline
+}
+SUP {
+	FONT-SIZE: 6px
+}
+
+	
+.c0 {
+	COLOR: #000000
+}
+.c4 {
+	COLOR: #444444
+}
+.c6 {
+	COLOR: #666666
+}
+.c9 {
+	COLOR: #999999
+}
+.cc {
+	COLOR: #cccccc
+}
+.cf {
+	COLOR: #ffffff
+}
+.tableTitle {
+	PADDING-LEFT: 31px
+}
+.tableTitleLine {
+	PADDING-LEFT: 20px
+}
+.pageTitle {
+	PADDING-LEFT: 12px
+}
+.pd10th {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 10px; PADDING-BOTTOM: 5px; PADDING-TOP: 8px
+}
+.pd10 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 10px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px
+}
+.red {
+	COLOR: #cc0000
+}
+.white {
+	COLOR: #ffffff
+}*/ 
+

@@ -1,0 +1,35 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<body onload=startclock()>
+<form name="clock">
+<script language="JavaScript">
+var timerID = null;
+var timerRunning = false;
+function stopclock (){
+if(timerRunning)
+clearTimeout(timerID);
+timerRunning = false;}
+function startclock () {
+stopclock();
+showtime();}
+function showtime () {
+var now = new Date();
+var hours = now.getHours();
+var minutes = now.getMinutes();
+var seconds = now.getSeconds()
+var timeValue = (now.getYear()+1900)+"年"+(now.getMonth()+1)+"月"+now.getDate()+"日" +((hours >= 12) ? " PM " : " AM " )
+timeValue += hours	<!--((hours >12) ? hours -12 :hours)-->
+timeValue += ((minutes < 10) ? ":0" : ":") + minutes
+timeValue += ((seconds < 10) ? ":0" : ":") + seconds
+document.clock.thetime.value = timeValue;
+timerID = setTimeout("showtime()",1000);
+timerRunning = true;}
+</script>
+<input name="thetime" style="font-size: 9pt;color:#000000;border:1px solid #FFFFFF; ; " size="28"></form>
+<table width="50%" height="280" border="0">
+  <tr>
+    <th scope="row"><a href=""  target="secondFrame"></th>
+  </tr>
+</table>
+</body>
+</html>

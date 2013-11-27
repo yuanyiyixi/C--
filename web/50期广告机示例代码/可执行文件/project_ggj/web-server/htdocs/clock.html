@@ -1,0 +1,58 @@
+<html>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<form action='/cgi-bin/clock.cgi' method=POST target="secondFrame">
+<input type="submit" name="Button", value="广告机时间">
+<input type="submit" name="Button", value="服务器时间">
+<input type="submit" name="Button", value="显示/隐藏">
+<input type="submit" name="Button", value="加载/关闭">
+</form>
+
+<form action='/cgi-bin/clock.cgi' method=POST target="secondFrame">
+符号样式: &nbsp; 
+<input type="radio" name="Name" value=":" checked>:(冒号,默认) &nbsp; 
+<input type="radio" name="Name" value="-">-(横线) &nbsp; 
+<input type="radio" name="Name" value=".">.(点) &nbsp; 
+<input type="radio" name="Name" value=" ">空格 &nbsp;
+<input type="submit" name="Button", value="更改间隔符">
+</form>
+
+<form action='/cgi-bin/clock.cgi' method=POST target="secondFrame">
+背景样式: &nbsp; <input type="radio" name="Name" value="0" checked>无背景 &nbsp; 
+<input type="radio" name="Name" value="1"> 显示背景 &nbsp;
+<input type="submit" name="Button", value="更改背景模式">
+</form>
+
+
+<form action='/cgi-bin/clock.cgi' method=POST target="secondFrame">
+边框样式: &nbsp; <input type="radio" name="Name" value="0" checked>无 &nbsp;
+ <input type="radio" name="Name" value="1">方框 &nbsp; 
+<input type="radio" name="Name" value="2">面板 &nbsp; 
+<input type="radio" name="Name" value="3">窗口面板 <br />
+&nbsp; 
+<input type="radio" name="Name" value="4">单横线 &nbsp; 
+<input type="radio" name="Name" value="5">单竖线 &nbsp; 
+<input type="radio" name="Name" value="6">面板样式 &nbsp;
+<input type="submit" name="Button", value="更改边框">
+</form>
+
+<form action='/cgi-bin/clock.cgi' method=POST target="secondFrame">
+颜色设置: &nbsp; <input type="radio" name="Name" value="0" checked>文字全填充 &nbsp; 
+<input type="radio" name="Name" value="1">文字内部填充 &nbsp; 
+<input type="radio" name="Name" value="2">
+背景色填充<br>
+&nbsp; &nbsp; 
+RGB&nbsp;&nbsp;&nbsp;模式: 
+R:<input type="text" name="R" size=3>
+G:<input type="text" name="G" size=3>
+B:<input type="text" name="B" size=3>
+透明度:<input type="text" name="RGBA" size=3>
+<input type="submit" name="Button", value="设置RGB"><br>
+&nbsp; &nbsp;
+CMYK模式: C:<input type="text" name="C" size=3>
+M:<input type="text" name="M" size=3>
+Y:<input type="text" name="Y" size=3>
+K:<input type="text" name="K" size=3>
+透明度:<input type="text" name="CMYKA" size=3>
+<input type="submit" name="Button", value="设置CMYK">
+</html>

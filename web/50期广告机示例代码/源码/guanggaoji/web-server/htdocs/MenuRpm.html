@@ -1,0 +1,92 @@
+<html><head><title>menu</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+body,td,th {
+	color: #FFF;
+}
+</style>
+</head>
+<SCRIPT language=javascript>
+	function expand(el)
+	{
+		childObj = document.getElementById("child" + el);
+
+		if (childObj.style.display == 'none')
+		{
+			childObj.style.display = 'block';
+		}
+		else
+		{
+			childObj.style.display = 'none';
+		}
+		return;
+	}
+</SCRIPT>
+
+<body background="image/logo.jpg">
+<table width="130" border="0">
+<table width="130" border="0">
+<!--<tbody>-->
+<tr>
+	<td width="8"><img align=left src="images/pw.gif" height="8" width="8"></td>
+	<td style="PADDING-LEFT:0px" width="76"><a href="stats.html"  target="mainFrame"><font face="宋体" color="#ffffff" size=3>运行状态</font></a></td>
+</tr>
+
+<tr>
+	<td width="8"><img align=left src="images/pw.gif" height="8" width="8"></td>
+	<td style="PADDING-LEFT:0px" width="76"><a href="video.html"  target="mainFrame"><font face="宋体" color="#ffffff" size=3>视频控制</font></a></td>
+</tr>
+<tr>
+	<td width="8"><img align=left src="images/pw.gif" height="8" width="8"></td>
+	<td style="PADDING-LEFT:0px" width="76"><a href="text.html" target="mainFrame"><font face="宋体" color="#ffffff" size=3>字幕控制</font></a></td>
+</tr>
+   
+<tr>
+	<td width="8"><img align=left src="images/pw.gif" height="8" width="8"></td>
+	<td style="PADDING-LEFT:0px" width="76"><a href="clock.html" target="mainFrame"><font face="宋体" color="#ffffff" size=3>时钟控制</font></a></td>
+</tr>
+	<TABLE  width="130" border="0">        
+        <TR> 
+        	<TD width="8"><img align="left" valign="middle" src="images/pw.gif" width="8" height="8"></td>
+            <td style="PADDING-LEFT:0px" width="76"><A class=menuParent onclick=expand(1) href="javascript:void(0);"><font face="宋体" color="#ffffff" size=3>图片管理</A></TD>
+        </TR>
+    </TABLE>
+    
+    <TABLE width=130 id=child1 style="DISPLAY: none" cellSpacing=0 cellPadding=0 border=0>
+        <TR>
+          <TD align=right width=30>>></TD>
+          <TD height="20"><A class=menuChild href="picture3.html" target=mainFrame><font face="宋体" color="#FFFFFF" size=2>右上图片</A></TD>
+        </TR>
+		
+        <TR>
+          <TD align=right width=30>>></TD>
+          <TD height="20"><A class=menuChild href="picture1.html" target=mainFrame><font face="宋体" color="#FFFFFF" size=2>右中图片</A></TD>
+        </TR>
+        
+        <TR>
+          <TD align=right width=30>>></TD>
+          <TD height="20"><A class=menuChild href="picture2.html" target=mainFrame><font face="宋体" color="#FFFFFF" size=2>右下图片</A></TD>
+        </TR>
+	
+    </table>
+		
+<table width="130" border="0">
+<tr> 
+	<td width="8"><img align="left" src="images/pw.gif" height="8" width="8"></td>
+	<td width="76"><a href="user.html" target="mainFrame"><font face="宋体" color="#ffffff" size=3>用户管理</font></a></td>
+</tr>
+
+<tr>
+	<td width="8"><img align=left src="images/pw.gif" height="8" width="8"></td>
+	<td width="76"><a href="login.html" target="mainFrame"><font face="宋体" color="#ffffff" size=3>注销退出</font></a></td>
+</tr>
+<tr>
+	<td width="8"><img align=left src="images/pw.gif" height="8" width="8"></td>
+	<td width="76"><a href="email.html" target="mainFrame"><font face="宋体" color="#ffffff" size=3>联系我们</font></a></td>
+</tr>
+</table>
+
+<!--</tbody>-->
+</table>
+</body>
+</html>

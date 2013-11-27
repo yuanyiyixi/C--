@@ -1,0 +1,268 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html" charset="UTF-8">
+</head>
+<body>
+
+<font size=4 color=#ff00000><b><center>广告机设置</center></b></font>
+<form action='/cgi-bin/status.cgi' method=POST>
+<input type="submit" name="Button", value="广告机总览">
+<input type="submit" name="Button", value="状态检查"><br>
+</form>
+
+<form action='/cgi-bin/status.cgi' method=POST>
+ID:<input type="text" name="ID" size=3>
+IP:<input type="text" name="IP" size=15>
+<input type="submit" name="Button", value="添加广告机">
+<input type="submit" name="Button", value="删除广告机">
+<input type="submit" name="Button", value="修改IP">
+</form>
+
+
+<form action='/cgi-bin/status.cgi' method=POST>
+ID:<input type="text" name="Name" size=3>
+<input type="submit" name="Button", value="更改控制广告机ID">
+</form>
+
+<hr color="#ff8000">
+<font size=4 color=#ff00000><b><center>播放机控制</center></b></font>
+<form action='/cgi-bin/status.cgi' method=POST>
+<input type="submit" name="Button", value="打开播放机">
+<input type="submit" name="Button", value="关闭播放机">
+<input type="submit" name="Button", value="重新打开">
+<input type="submit" name="Button", value="全屏模式打开"><br>
+</form>
+
+<form action='/cgi-bin/status.cgi' method=POST>
+宽:<input type="text" name="Width" size=5>
+高:<input type="text" name="Height" size=5>
+<input type="submit" name="Button", value="指定大小打开">
+</form>
+
+<hr color="#ff8000">
+<font size=4 color=#ff00000><b><center>视频控制区</center></b></font>
+
+<form action='/cgi-bin/video.cgi' method=POST>
+<input type="submit" name="Button", value="状态信息">
+</form>
+
+<form action='/cgi-bin/video.cgi' method=POST>
+基本控制:<input type="submit" name="Button", value="播放/暂停">
+<input type="submit" name="Button", value="停止">
+<input type="submit" name="Button", value="上一文件">
+<input type="submit" name="Button", value="下一文件">
+</form>
+
+<form action='/cgi-bin/video.cgi' method=POST>
+文件操作:<input type="text" name="Name" size=30>
+<input type="submit" name="Button", value="上传视频">
+<input type="submit" name="Button", value="下载视频">
+<input type="submit" name="Button", value="删除视频">
+<input type="submit" name="Button", value="上传列表">
+<input type="submit" name="Button", value="下载列表">
+</form>
+
+<form action='/cgi-bin/video.cgi' method=POST>
+循环设置:<input type="text" name="Name" size=3 width=3>
+<input type="submit" name="Button", value="设置循环">
+</form>
+
+<form action='/cgi-bin/video.cgi' method=POST>
+声音设置:<input type="text" name="Name" size=3>
+<input type="submit" name="Button", value="设置声音">
+<input type="submit" name="Button", value="静音">
+</form>
+
+<form action='/cgi-bin/video.cgi' method=POST>
+定位设置:<input type="text" name="Name" size=3>
+<input type="submit" name="Button", value="时间加减">
+<input type="submit" name="Button", value="定位秒">
+<input type="submit" name="Button", value="百分比">
+</form>
+
+<form action='/cgi-bin/video.cgi' method=POST>
+速度设置:<input type="text" name="Name">
+<input type="submit" name="Button", value="速度加减">
+<input type="submit" name="Button", value="速度倍数">
+<input type="submit" name="Button", value="速度值">
+</form>
+
+<form action='/cgi-bin/video.cgi' method=POST>
+列表设置:<input type="text" name="Name" size=50>
+<input type="submit" name="Button", value="加载播放列表">
+<input type="submit" name="Button", value="追加播放列表">
+<input type="submit" name="Button", value="获取列表内容">
+
+</form>
+
+<form action='/cgi-bin/video.cgi' method=POST>
+文件设置:<input type="text" name="Name" size=50>
+<input type="submit" name="Button", value="播放此文件">
+<input type="submit" name="Button", value="添加播放">
+</form>
+
+
+<hr color="#ff8000">
+<font size=4 color=#ff00000><b><center>时钟设置区</center></b></font>
+<form action='/cgi-bin/clock.cgi' method=POST>
+<input type="submit" name="Button", value="广告机时间">
+<input type="submit" name="Button", value="服务器时间">
+<input type="submit" name="Button", value="显示/隐藏">
+<input type="submit" name="Button", value="加载/关闭">
+</form>
+
+<form action='/cgi-bin/clock.cgi' method=POST>
+符号样式: &nbsp <input type="radio" name="Name" value=":" checked>:(冒号,默认) &nbsp <input type="radio" name="Name" value="-">-(横线) &nbsp <input type="radio" name="Name" value=".">.(点) &nbsp <input type="radio" name="Name" value=" ">空格 &nbsp
+<input type="submit" name="Button", value="更改间隔符">
+</form>
+
+<form action='/cgi-bin/clock.cgi' method=POST>
+背景样式: &nbsp <input type="radio" name="Name" value="0" checked>无 &nbsp <input type="radio" name="Name" value="1"> 显示 &nbsp
+<input type="submit" name="Button", value="更改背景模式">
+</form>
+
+
+<form action='/cgi-bin/clock.cgi' method=POST>
+边框样式: &nbsp <input type="radio" name="Name" value="0" checked>无 &nbsp <input type="radio" name="Name" value="1">方框 &nbsp <input type="radio" name="Name" value="2">面板 &nbsp <input type="radio" name="Name" value="3">窗口面板 &nbsp <input type="radio" name="Name" value="4">单横线 &nbsp <input type="radio" name="Name" value="5">单竖线 &nbsp <input type="radio" name="Name" value="6">面板样式 &nbsp
+<input type="submit" name="Button", value="更改边框">
+</form>
+
+<form action='/cgi-bin/clock.cgi' method=POST>
+文字颜色: &nbsp <input type="radio" name="Name" value="0" checked>文字全填充 &nbsp <input type="radio" name="Name" value="1">文字内部填充 &nbsp <input type="radio" name="Name" value="2">背景色填充<br>
+&nbsp &nbsp RGB&nbsp&nbsp&nbsp模式: R:<input type="text" name="R" size=3>G:<input type="text" name="G" size=3>
+B:<input type="text" name="B" size=3>透明度:<input type="text" name="RGBA" size=3>
+<input type="submit" name="Button", value="设置RGB"><br>
+&nbsp &nbsp CMYK模式: C:<input type="text" name="C" size=3>M:<input type="text" name="M" size=3>
+Y:<input type="text" name="Y" size=3>K:<input type="text" name="K" size=3>透明度:<input type="text" name="CMYKA" size=3>
+<input type="submit" name="Button", value="设置CMYK">
+</form>
+
+
+<hr color="#ff8000">
+<font size=4 color=#ff00000><b><center>字幕设置区</center></b></font>
+<form action='/cgi-bin/text.cgi' method=POST>
+<input type="submit" name="Button", value="当前字幕信息">
+<input type="submit" name="Button", value="动态/静态">
+<input type="submit" name="Button", value="显示/隐藏">
+</form>
+
+<form action='/cgi-bin/text.cgi' method=POST>
+<input type="text" name="Name" size=4>
+<input type="submit" name="Button", value="滚动速度">
+</form>
+
+<form action='/cgi-bin/text.cgi' method=POST>
+<input type="text" name="Name" size=4>
+<input type="submit" name="Button", value="平滑度">
+</form>
+
+<form action='/cgi-bin/text.cgi' method=POST>
+<input type="text" name="Name" size=100>
+<input type="submit" name="Button", value="更改文字">
+<input type="submit" name="Button", value="更改字号">
+<input type="submit" name="Button", value="更改字体">
+</form>
+
+<form action='/cgi-bin/text.cgi' method=POST>
+颜色更改:<br>
+RGB&nbsp&nbsp&nbsp模式: R:<input type="text" name="R" size=3>G:<input type="text" name="G" size=3>
+B:<input type="text" name="B" size=3>透明度:<input type="text" name="A" size=3>
+<input type="submit" name="Button", value="设置RGB">
+</form>
+
+<form action='/cgi-bin/text.cgi' method=POST>
+CMYK模式: C:<input type="text" name="C" size=3>M:<input type="text" name="M" size=3>
+Y:<input type="text" name="Y" size=3>K:<input type="text" name="K" size=3>透明度:<input type="text" name="A" size=3>
+<input type="submit" name="Button", value="设置CMYK">
+</form>
+
+
+<hr color="#ff8000">
+<font size=4 color=#ff00000><b><center>图片1控制区</center></b></font>
+
+<form action='/cgi-bin/picture1.cgi' method=POST>
+<input type="submit" name="Button", value="状态信息">
+<input type="submit" name="Button", value="动态显示">
+<input type="submit" name="Button", value="显示/隐藏">
+<input type="submit" name="Button", value="关闭/加载">
+</form>
+
+<form action='/cgi-bin/picture1.cgi' method=POST>
+显示:<input type="text" name="Name" size=3>
+<input type="submit" name="Button", value="显示这张">
+<input type="submit" name="Button", value="上一张">
+<input type="submit" name="Button", value="下一张">
+</form>
+
+<form action='/cgi-bin/picture1.cgi' method=POST>
+时间:<input type="text" name="Name" size=6>
+<input type="submit" name="Button", value="更改停留时间">
+</form>
+
+<form action='/cgi-bin/picture1.cgi' method=POST>
+文件:<input type="text" name="Name" size=30>
+<input type="submit" name="Button", value="上传图片">
+<input type="submit" name="Button", value="下载图片">
+<input type="submit" name="Button", value="删除图片">
+</form>
+
+
+<hr color="#ff8000">
+<font size=4 color=#ff00000><b><center>图片2控制区</center></b></font>
+
+<form action='/cgi-bin/picture2.cgi' method=POST>
+<input type="submit" name="Button", value="状态信息">
+<input type="submit" name="Button", value="动态显示">
+<input type="submit" name="Button", value="显示/隐藏">
+<input type="submit" name="Button", value="关闭/加载">
+</form>
+
+<form action='/cgi-bin/picture2.cgi' method=POST>
+显示:<input type="text" name="Name" size=3>
+<input type="submit" name="Button", value="显示这张">
+<input type="submit" name="Button", value="上一张">
+<input type="submit" name="Button", value="下一张">
+</form>
+
+<form action='/cgi-bin/picture2.cgi' method=POST>
+时间:<input type="text" name="Name" size=6>
+<input type="submit" name="Button", value="更改停留时间">
+</form>
+
+<form action='/cgi-bin/picture2.cgi' method=POST>
+文件:<input type="text" name="Name" size=30>
+<input type="submit" name="Button", value="上传图片">
+<input type="submit" name="Button", value="下载图片">
+<input type="submit" name="Button", value="删除图片">
+</form>
+
+<hr color="#ff8000">
+<font size=4 color=#ff00000><b><center>图片3控制区</center></b></font>
+
+<form action='/cgi-bin/picture3.cgi' method=POST>
+<input type="submit" name="Button", value="状态信息">
+<input type="submit" name="Button", value="动态显示">
+<input type="submit" name="Button", value="显示/隐藏">
+<input type="submit" name="Button", value="关闭/加载">
+</form>
+
+<form action='/cgi-bin/picture3.cgi' method=POST>
+显示:<input type="text" name="Name" size=3>
+<input type="submit" name="Button", value="显示这张">
+<input type="submit" name="Button", value="上一张">
+<input type="submit" name="Button", value="下一张">
+</form>
+
+<form action='/cgi-bin/picture3.cgi' method=POST>
+时间:<input type="text" name="Name" size=6>
+<input type="submit" name="Button", value="更改停留时间">
+</form>
+
+<form action='/cgi-bin/picture3.cgi' method=POST>
+文件:<input type="text" name="Name" size=30>
+<input type="submit" name="Button", value="上传图片">
+<input type="submit" name="Button", value="下载图片">
+<input type="submit" name="Button", value="删除图片">
+</form>
+
+
+</body></html>

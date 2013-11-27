@@ -1,0 +1,49 @@
+一、目录说明:
+board-src: 广告机端(开发板)源代码,其中:
+	main_server.c	主服务端, 负责监听连接, 文件上传与下载, 控制QT程序启动
+	guanggaoji目录 	QT程序源代码, mplayer程序也在此文件下, 里面的目录文件不要随便改名, 如果要改需要更改源代码, 大多是宏定义路径:
+web-server: web服务器端代码,其中:
+	cgi-src: cgi程序的源代码, 编译成的cgi拷贝到web服务器的/var/httpd/cgi-bin目录下生效
+			data.db 数据库,两个表, user记录用户名信息, ip记录各广告机ip信息,拷到web服务器的/var/httpd/cgi-bin目录下
+	htdocs: 网页文件, 需拷到web服务器的/var/httpd/htdocs目录下生效
+
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+二、使用说明
+1、编译:make 自动进入cgi和qt目录对其进行编译
+2、安装:make install： 生成两个压缩包，里面不含源码，只有可执行程序，资源文件(图片，视频，数据库等)
+3.安装完成后生成两个压缩包, board.tar.gz, pcapp.tar.gz, 生成一个目录project-ggj,下面有两个目录:
+	board.tar.gz : tar -xvf board.tar.gz 
+		将解压后的project-ggj/board目录下的main_server和guanggaoji传到开发板
+	pcapp.tar.gz : tar -xvf pcapp.tar.gz 
+		将解压后的project-ggj/web-server目录下的两个目录分别拷到web服务器下的cgi-bin和htdocs
+		web服务器需要安装HTTPD服务 和 libcgi sqlite3 库
+
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+三、启动说明
+1.web服务器:启动httpd服务: sudo /var/httpd/bin/httpd -k start
+	设置IP，浏览器登陆IP能够进入到登陆面画表示成功
+2.开发板: 进入到board目录， 执行./main_server
+3.监控端:
+	打开浏览器，进入的登录界面,如http://127.0.0.1:8080/login.html
+	登陆后，在广告机设置里添加相应的广告端IP（已经有用于演示的本机ip 127.0.0.1等4个ip地址了)
+	默认用户名:admin　密码:admin
+	成功登陆后可进行相关操作
+
+
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+四、其它
+功能并不完善，以下预计功能实际未实现
+1.不支持监控端与开发板间传输文件，只支持从web服务器到广告机（开发板）， 主要不会从浏览器上传下载；
+2.时间仓促,用户管理里没有处理权限问题
+3.没有处理时间同步功能
+4.指定各显示模块的所占窗口大小
+5.添加播放列表与添加播放功能实现出来效果不是预计所设,与mplayer有关.
+6.监控端没有设计出滚动条
+7.session功能总有些BUG,最后整合时去掉了
+8.有些容错没有处理,如IP地址,用户名重复等
+9.时钟管理里背景问题,只能显示与关闭背景,没有实现出自定义颜色,想过用QWidget包含一个QLCDNumber,应该可行,没时间弄了
+10.网页中按钮,文本框设计不美观
+11.退出网页功能IE里灵,有些浏览器不灵了,javascript实在弄不懂
+12."联系我们"是打酱油的, 不会真的发送消息
+
+张纯兵		2012.6.30日
