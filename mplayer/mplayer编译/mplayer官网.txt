@@ -1,0 +1,3 @@
+http://www.mplayerhq.hu
+
+As a first for this release, the tarballs are available in two variants: compressed with xz and compressed with gzip. Please get the xz variant if you can to save bandwidth, the gzip version is for everyone that cannot use it. Should you never have encountered xz compressed files, newer versions of tar can uncompress it via "tar xJf MPlayer-1.1.tar.xz". 

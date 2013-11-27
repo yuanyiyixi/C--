@@ -1,0 +1,26 @@
+一、编译新版本mplayer需要安装一些包：
+1.1版mplayer编译：
+sudo apt-get install yasm    (configure时报没有yasm，所以需要安装）
+sudo apt-get install libgtk2.0-dev    (configure --enable-gui 需要安装gtk+支持包）
+sudo apt-get install zlib1g-dev   (需要安装的zlib压缩库)
+sudo apt-get install libx11-dev   (x window system develop packege, mplayer vo = x11)(在~/.mplayer/config文件中添加 ao = oss 【换行】 vo = x11)
+sudo apt-get install libxv-dev    (mplayer vo = xv,另外configure时提示X11不支持就是没装这个包)
+./configure --enabel-gui 
+
+二、新版本ubuntu(11.x或12.x)不发声的问题：
+如果是ubuntu12.04，因为不支持oss，换成支持alsa，所以需要安装：
+sudo apt-get install libasound2-dev
+
+另外，对mplayer的配置须换成如下命令：
+./configure --enable-gui --enable-alsa --disable-ossaudio
+
+如果还不行，进一步还可以：
+在~/.mplayer/中，修改config文件，指定对应的音频和视频输出方式：
+ao = alsa
+vo = x11
+#ao = oss
+#vo = xv
+
+
+编译httpd2.4.2或httpd2.4.3时需要先安装两个包:
+sudo apt-get install libapr1-dev libaprutil1-dev

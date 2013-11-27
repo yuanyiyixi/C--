@@ -1,0 +1,1487 @@
+标题: MPlayer 最新完整的中文文档 
+
+
+
+FAQ:
+
+5. FAQ
+
+* 5.1 编译
+* 5.2 一般问题
+* 5.3 播放问题
+* 5.4 视频与音频驱动问题(vo/ao)
+* 5.5 DVD播放
+* 5.6 特性要求
+* 5.7 编码
+
+5.1 编译
+
+Q：编译停止并出现类似这样的出错信息：
+
+In file included from mplayer.c:34:
+mw.h: In function `mplMainDraw':
+mw.h:209: Internal compiler error in print_rtl_and_abort, at flow.c:6458
+Please submit a full bug report,
+with preprocessed source if appropriate.
+
+
+A：这是gcc 3.0.4的一个已知的bug，升级到3.1就可以解决问题。如何安装gcc参阅gcc 2.96部分。
+
+Q：Configure结束时出现这样的文字，MPlayer无法编译！
+"Your gcc does not support even i386 for '-march' and '-mcpu'."
+A：你的gcc没有正确的安装，细节需要查看config.log文件。
+
+Q："No such file or directory"是什么意思？
+A：有可能真的没有这样文件或目录。
+
+Q：gcc2.96有什么问题？
+A：我们强烈反对使用gcc 2.96！
+细节参见这个文件了解为什么Red Hat发布gcc 2.96，以及它有什么问题。如果你仍然确实确实确实确实想要使用它，总是使用最新的版本并且在configure的时候加上--disable- gcc-checking选项。记住是你自己选择这条路的。一定不要报告bug，一定不要到邮件列表上寻求帮助。如果你遇到问题我们将不提供任何支持。
+
+Q：好极了，那么我使用Red Hat/Mandrake的gcc 3.0.1，我没问题！
+A：不，因为那些编译器同样有问题。为了了解当前的编译器对MPlayer的支持状况，参见安装部分。
+
+Q：我试图编译MPlayer，但是我得到这样的输出：
+
+In file included from /usr/include/g++-v3/bits/std_cwchar.h:42,
+from /usr/include/g++-v3/bits/fpos.h:40,
+from /usr/include/g++-v3/bits/char_traits.h:40,
+from /usr/include/g++-v3/bits/std_string.h:41,
+from /usr/include/g++-v3/string:31,
+from libwin32.h:36,
+from DS_AudioDecoder.h:4,
+from DS_AudioDec.cpp:5:
+/usr/include/wchar.h: In function Long long int wcstoq(const wchar_t*,
+wchar_t**, int)':
+/usr/include/wchar.h:514: cannot convert `const wchar_t* __restrict' to
+`const
+
+
+A：把你的glibc升级到最新的发行版。对于Mandrake，使用2.2.4-8mdk。
+
+Q：... gcc 2.96 ... (是的，有些人还在为gcc 2.96上火！)
+A：我们引用A'rpi发送到mplayer-users邮件列表的一封 邮件('ideg'的意思将在下面解释)：
+
+And we have idegs. And our idegcounter overflowed again and again.
+
+Unfortunately MPlayer is out of our control. It's used by lamers, Linux users who can't even use Windows, and never tried to compile a kernel. They installed (with default options) Mandrake or Red Hat or SuSE, and without RTFM'ing they send messages saying 'it doesn't work! help me! please! i'm new to Linux! help! oh! help me!'. We can't stop them, but at least we try to force them to RTFM and to read the messages of ./configure and MPlayer.
+
+And you clever guys come and flame us with gcc 2.96 and binary packages. Instead of helping users or making patches to help solve problems.
+
+Half of our spare/free time is spent by answering silly mails here and making newer tricks and checks to configure to avoid such mails.
+
+And there is a balance. On the one side are you, clever guys, saying we are very bad because we don't like buggy gcc 2.96, and on the other side there are the 'new to Linux' guys who are showing us gcc 2.96 is buggy.
+
+Conclusion: We can't be good. Half the people will always say we are bad.
+
+Maybe we should close the project, make it closed source, commercial, and provide install support for it. then we could leave current work, so development could go faster, and we could earn lots of money with it and buy a big house, etc etc. Do you really want it? It seems.
+
+
+Q：SDL输出不能工作或者编译。问题在...
+A：SDL 1.2.x经过测试能够工作另外SDL 1.1.7+可能能工作。任何以前的版本肯定不能工作。因此如果你选择使用这样的版本，是你自己的责任。
+
+Q：我在编译SDL支持的时候仍然有问题。gcc说什么"undefined reference to `SDL_EnableKeyRepeat'"。现在怎么办？
+A：你把SDL库装在哪里？ 如果你装在/usr/local(默认目录)中那么编辑顶层的config.mak并在"X_LIBS="之后添加"-L/usr/local/lib"。现在打make。你搞定了！
+
+Q：不能编译，找不到uint64_t inttypes.h之类的东西...
+A：把etc/inttypes.h复制到MPlayer目录下(cp etc/inttypes.h .)然后再试一次...
+
+Q：我在Pentium III上运行Linux但是./configure 没有找到SSE...
+A：只有2.4.x的内核支持SSE(或者试试2.2.19或更新的版本，但准备好出问题)。
+
+Q：我有G200与G400，我如何编译使用mga_vid驱动？
+A：阅读mga_vid文档。
+
+Q：MPlayer有rpm/deb/...之类的安装包吗？
+A：你能自己制作.deb安装包，查阅Debian安装包的制作一节。我们网站的下载页上有官方的Red Hat的RPM包的下载链接。
+
+Q：在'make'时，MPlayer报告没有X11库。我不理解，我确实装了X！？
+A：...但是你没有装X的开发包。或者没有正确安装。Red Hat下面它叫XFree86-devel*，Debian下面是xlibs-dev。也检查是否存在/usr/X11和/usr/include /X11的符号链接(在Mandrake系统上可能有这个问题)。他们用下列命令创建：
+$ ln -sf /usr/X11R6 /usr/X11
+$ ln -sf /usr/X11R6/include/X11 /usr/include/X11
+你的发行版可能不是文件系统层次标准。
+
+Q：我不能编译SVGAlib。我使用2.3/2.4的内核...
+A：你必须编辑SVGAlib的Makefile.cfg把BACKGROUND = y注释掉。
+
+Q：我的MPlayer编译了libdvdcss/libdivxdecore的支持，但是当我试图起动它时，它说：
+> error while loading shared libraries: lib*.so.0: cannot load shared object file: No such file or directory
+我检查了文件，它确实在/usr/local/lib里面...
+A：在/etc/ld.so.conf里添加/usr/local/lib然后运行ldconfig。
+
+Q：Hmm，奇怪。我加载mga_vid.o内核模块后在log中找到这个：
+Warning: loading mga_vid.o will taint the kernel: no license
+A：最新的内核modutils要求一个标明许可证的标记(主要避免内核hackers调试非开源的驱动)。升级你的内核， modutils和MPlayer。
+
+Q：编译MEncoder过程中，在连接时出现segfaults！
+A：这是连接程序的问题。把binutils升级应该有用(2.11.92.*或者更新版本应该不错)。由于它不是我们的问题，请一定不要报告！
+
+Q：MPlayer在pthread check时因为segmentation fault而崩溃！
+A：chmod 644 /usr/lib/libc.so
+
+Q：我想在Minix上编译MPlayer！
+A：我也想。
+
+5.2 一般问题
+
+Q: 我怎么给MPlayer制作合适的补丁？
+A: 我们做了一个短小的文件描述了所有必要的细节。照上面的步骤做。
+
+Q: 我怎么支持MPlayer的开发工作？
+A: 我们非常乐于接受你的硬件和软件的捐赠。它们能帮助我们持续的改进MPlayer。
+
+Q: 我怎么成为MPlayer的开发者？
+A: 我们总是欢迎写程序的和写文档的。先阅读技术文档来有个大致了解。然后你应该订阅mplayer-dev-eng邮件列表并开始编程。
+
+Q：我能同时运行多个MPlayer实例吗？
+A：是的。有些视频输出的驱动像xv，dga或者(x)mga是唯一的，所以你将不能够运行超过一个使用这样的视频输出驱动的MPlayer实例。音频驱动也在不是很严重的程度上存在这种问题。并非所有的驱动都允许在同样的设备上播放多重流。
+
+Q：在左上角中有一个计时器。我怎么能去掉它？
+A：按o或者使用-osdlevel选项。
+
+Q：-xy或者-fs选项对x11驱动(-vo x11)不起作用...
+A：它能起作用，但你必须用-zoom选项明确指定使用软件缩放(十分缓慢)。你最好是使用XF86VidMode支持：你必须指定-vm和-fs选项， 然后就搞定了。确保在你的XF86Config文件中有正确设定了modelines，并且尝试使用DGA驱动以及SDL的DGA驱动。它快得多。如果 SDL的DGA能工作就用它，它还要更快。
+
+Q：状态行上的数字的是什么意思？
+A：例如： A: 2.1 V: 2.2 A-V: -0.167 ct: 0.042 57/57 41% 0% 2.6% 0 4 49%
+
+* A：以秒计算的音频位置
+* V：以秒计算的视频位置
+* A-V：以秒计算的音频视频位置差(延迟)
+* ct：所有完成的A-V同步纠正
+* 播放的帧数(从最后一次搜索开始计算)
+* 解码的帧数(从最后一次搜索开始计算)
+* 视频解码器占用的cpu的百分比(对于slice和DR这包括了视频输出的占用)
+* 视频输出的cpu占用
+* 音频解码器占用的cpu的百分比
+* 为保持A-V同步而丢弃的帧数
+* 目前图像后处理的级别(当使用-autoq时)
+* 当前cache使用量(大约50%是正常的)
+
+他们中大多数是为了调试的，将在适当时候去掉。
+
+Q：我不想要他们出现怎么办？
+A：使用-quiet选项并阅读man page。
+
+Q：为什么有些文件的视频输出的cpu占用是零(0%)？
+A1：它不是零，但它是由解码器调用的不能被单独测量。你应该试着先用-vo null播放文件然后用-vo ...播放，检查它们的不同来查看视频速度。
+A2：你使用了直接渲染，那是由解码器自己渲染显存。在这种情况下，解码占用的百分比也包含了显示占用的百分比。
+
+Q：出现关于在/usr/lib/win32/下找不到文件的错误...
+A：从我们的编解码器页下载Win32编解码器(跟avifile的解码器包里的DLL不一样)并安装它。 
+
+Q：有关于MPlayer的邮件列表吗？
+A：有的。看我们的主页的信息页的底部来订阅。
+
+Q：当我试图播放我最喜爱的视频时，我发现一个讨厌的bug！我应该报告谁？
+A：请阅读bug报告指导并按照上面的步骤做。
+
+Q：我用...编解码器播放文件的时候有问题。我能使用它们吗？
+A：查阅编解码器状态，如果它不包含你的解码器，阅读编解码器文件，特别是编解码器导入HOWTO然后联系我们。
+
+Q：Umm，"IdegCounter"是什么东东？
+A：匈牙利语和英语的结合。匈牙利语"Ideg"是神经质的意思，发音类似于“ydaegh”。它最初用来度量A'rpi神经质，在一些CVS的代码(umm)“神秘的”消失之后；)
+
+Q："Faszom(C)ounter"又是什么？
+A：“Fasz”是你不会想要知道的匈牙利词汇，其他的跟MPlayer开发者们的邪恶的脑袋有关。
+
+Q：LIRC不工作，因为...
+A：你明确你使用的是mplayer而不是mplayer-lirc吗？ 注意，mplayer_lirc 使用了很长时间，包括0.60的发行版，但是它最近又变成mplayer了。
+
+Q：字幕非常不错，是我见过的最漂亮的，但它们降低播放速度！ 我想它是不可能的了...
+A：在运行./configure之后，编辑config.h并将#undef FAST_OSD换成 #define FAST_OSD。然后重新编译。
+
+Q：onscreen display(OSD)不停的闪烁！
+A：你使用单缓冲的vo驱动(x11,xv)。对于xv，使用-double选项。也试试-vop expand
+
+Q：libavcodec这种东东到底是什么？
+A：参见libavcodec一节。
+
+Q：但是Configure告诉我"Checking for libavcodec ... no"！
+A：你需要从FFmpeg的CVS中获得libavcodec。阅读libavcodec部分的说明。
+
+Q：Icewm的任务条总是在全屏的时候挡住电影！
+A：这不应该再发生了，但如果它确实仍然发生，使用-fstype layer选项并向mplayer-users邮件列表报告。
+
+Q：我不能访问GUI菜单。我按下右键，但我不能访问任何菜单项！
+A：你使用的是FVWM吗？ 试试下列方法：
+Start -> Settings -> Configuration -> Base Configuration
+把"Use Applications position hints"设为"Yes"。
+
+Q：我能在后台中运行MPlayer吗？
+A：用法：mplayer <options> <filename> < /dev/null &
+
+5.3 播放问题
+
+Q：我能播放某些AVI文件但是我听不到声音并且有这种出错信息：
+
+Detected audio codec: [divx] afm:4 (DivX audio (WMA))
+Requested audio codec family [divx] (afm=4) not available (enable it at
+compile time!)
+
+
+A：可能文件的音频使用了一个不是MPlayer本地支持的解码器。按照README或者 安装部分中的说明安装Win32解码器包。
+
+Q：...avifile/aviplay能工作但MPlayer不能。
+A：MPlayer不是avifile。它们之间唯一的共同之处Win32 DLL装载器。codecs(DLL)集，同步，信号分离等等完全不同所以不应该被比较。如果什么东西能用aviplay播放并不意味着MPlayer能工作，反之亦然。
+
+Q：播放AVI文件时音频不同步。
+A：试试-bps或-nobps选项。如果还没有改善，阅读 这个并把文件上载到FTP上。
+
+Q：MPlayer在使用l3codeca.acm的时候因为一些错误而退出。
+A：检查ldd /usr/local/bin/mplayer的输出。如果它包含
+libc.so.6 => /lib/libc.so.6 (0x4???????)
+"?"可以是任意数字表示没有问题，错误不在这里。如果它是：
+libc.so.6 => /lib/libc.so.6 (0x00??????)
+那就表示你的内核/libc有问题。可能你使用了一些安全补丁(例如Solar Designer的OpenWall补丁)强迫把库加载到很低的内存地址。因为l3codeca.acm是不可重新定位的DLL，它必须被加载到 0x00400000，我们没法改变它。你应该使用没有打补丁的核心，或者使用MPlayer的-afm 1选项禁用l3codeca.acm。
+
+Q：我的电脑播放分辨率640x300而且是立体声的mp3的M$ DivX AVI文件时非常慢。当我使用-nosound选项时，一切正常(但没有声音)。
+A：你的机器太慢或者你的声卡驱动坏了。查阅文档看你是否能提高性能。
+
+Q：MPlayer由于"MPlayer interrupted by signal 4 in module: decode_video"而崩溃。
+A：尝试在你用来编译MPlayer的机器上运行它。或者重新编译打开运行时CPU检测功能(./configure --enable-runtime-cpudetection)。如果没有使用上面提到的特性，不要在与编译它不同的CPU上使用MPlayer。
+
+Q：我有个关于[your window manager]跟xv/xmga/sdl/x11模式下全屏的问题...
+A：读取我们的bug报告指导并送一个正确的bug报告给我们
+
+Q：我播放MPEG文件时出现这样的错误： Can't find codec for video format 0x10000001!
+A：你的~/.mplayer/下的codecs.conf的版本太旧。用/etc/下面的文件升级它。
+或者你的配置文件中包含vc=选项或者类似东西。
+
+Q：当KDE下的运行MPlayer我只看到一个黑色的屏幕什么都没有。在大约一分钟之后才开始播放视频。
+A：KDE的arts守护进程会阻塞声卡设备。你可以一直等到视频开始或者在控制中心中禁用arts。如果你想使用arts的音频，将音频输出指定为我们 本地的arts音频驱动-ao arts)。如果它失败或者没有被编译进来，尝试SDL (-ao sdl)并且确保你的SDL能处理arts的音频。还有另一个选择是用artsdsp运行MPlayer。
+
+Q：我有一个AVI文件，当用-vc odivx播放时时，出现灰色屏幕，用-vc divx4时，出现绿色屏幕。
+A：这不是DivX文件，而是M$ MPEG4v3。更新你的codecs.conf。
+
+Q：我播放电影时遇到视频音频不同步和/或者MPlayer崩溃并出现下列信息：
+DEMUXER: Too many (945 in 8390980 bytes) video packets in the buffer!
+A：这可能有很多原因。
+
+* 你的CPU和/或者显卡和/或者总线太慢。在这种情况下MPlayer会显示信息(并且掉帧数会迅速增加)。
+* 如果它是AVI文件，也许它的交错有问题。试试-ni选项。
+* 你的声卡驱动太buggy，或者你对ALSA 0.5使用了-ao oss。 参见声卡部分。
+* AVI的文件头有问题，试试-nobps选项，和/或者-mc 0。
+
+
+Q：我有个MJPEG文件能用其它播放器播放但是MPlayer只显示一个黑色的图象。
+A：在codecs.conf中禁用Windows DLL，或者使用-vc ffmjpeg选项(为此你需要为MPlayer编译libavcodec支持)。
+
+Q：当我试图从我的电视选台器截取时，它能工作，但是颜色很奇怪。用其它程序没问题。
+A：你的卡片有可能错误报告了它的色彩空间容量。试试YUY2而不是缺省的YV12(见电视输入文档)。
+
+Q：每次我开始播放是，都遇到这种信息，但一切似乎都正常：
+Linux RTC init: ioctl (rtc_pie_on): Permission denied
+A：你需要root权限或者一个特殊设定的内核使用计时器代码。细节参见文档的RTC部分。
+
+Q：我的同步有问题。一些AVI我能正常播放，另外一些却是以双倍速度播放！
+A：你的声卡/驱动buggy。很有可能它的固定在44100Hz，而你试图播放22050Hz的音频的文件。试试resample音频滤镜。
+
+Q：我播放所有WMV (或者其它.. )文件时都只有一个绿色/灰色的窗口和声音！ MPlayer报告：
+Detected video codec: [null] drv:0 (NULL codec (no decoding))
+A：更新你codecs.conf。
+
+Q：我用我的笔记本播放文件时得到十分奇怪的CPU百分值(太大了)。
+A：这是你的笔记本的电源管理/节能系统(BIOS，不是内核)的影响。起动你的笔记本之前插上外部电源。你也可以试试cpufreq(一个Linux下的SpeedStep界面)对你是否有帮助。
+
+Q：当我以root权限在我的笔记本上运行MPlayer时，音频与视频完全不同步。当我作为普通用户运行它时，它工作正常。
+A：这还是电源管理的结果(见上面)。起动你的笔记本之前插上外部电源或者使用-nortc选项。
+
+5.4 视频与音频驱动问题(vo/ao)
+
+Q：我播放视频的时候没有声音并且得到类似这样的出错信息：
+
+AO: [oss] 44100Hz 2ch Signed 16-bit (Little-Endian)
+audio_setup: Can't open audio device /dev/dsp: Device or resource busy
+couldn't open/init audio device -> NOSOUND
+Audio: no sound!!!
+Start playing...
+
+
+A：你是运行的KDE或者GNOME，并且起动了ARTS或者ESD音频守护进程吗？ 试试禁用音频守护进程，或者使用-ao arts 或-ao esd选项让MPlayer使用ARTS或ESD。
+
+Q：DGA驱动怎么了？ 我找不到它！
+A：./configure会自动检测你的DGA驱动。如果-vo help没有显示DGA，那你的X装的有问题。尝试./configure --enable-dga并且读取相关文档。或者，使用-vo sdl:dga 选项试试SDL的DGA驱动。
+
+Q：很好，-vo help显示有DGA驱动，但是它抱怨权限。帮帮我！
+A：它只能以root权限工作！ 这是DGA的限制。你应该成为root(su -)，然后再试一次。另一个解决方法是为 MPlayerSUID root，但是这种方法不被推荐！
+chown root /usr/local/bin/mplayer
+chmod 755 /usr/local/bin/mplayer
+chmod +s /usr/local/bin/mplayer
+
+警告：安全风险
+这是一个很大的安全风险！永远不要在除了你之外还有人可以使用的服务器上这样做，因为他们能通过SUID root的 MPlayer获得root权限。你被警告过了。 
+
+
+Q：当使用Xvideo时，我的Voodoo 3/Banshee报告说：
+X Error of failed request: BadAccess (attempt to access private resource denied)
+Major opcode of failed request: 147 (MIT-SHM)
+Minor opcode of failed request: 1 (X_ShmAttach)
+Serial number of failed request: 26
+Current serial number in output stream:27
+A：XFree86 4.0.2/4.0.3的“tdfx”驱动有这个bug。已经被解决了bugfix #621 of the XFree86 4.1.0 CVS log。因此，升级到XFree86 4.1.0或者更新的版本。或者，要么是从DRI的主页下载(至少)0.6版本的DRI，要么使用CVS的DRI。
+
+Q：OpenGL(-vo gl)输出不工作(锁死/黑色窗口/X11出错/...)。
+A：你的OpenGL驱动不支持动态材质更换(glTexSubImage)。已知的是它在nVidia的二进制的家伙上不工作。同时也知道它在 Utah-GLX/DRI 和Matrox G400显卡上能工作。Radeon显卡加DRI也行。其它显卡加DRI不行。它同样不能在3DFX显卡上工作，因为256x256材质大小限制。
+
+Q：我有一块nVidia TNT/TNT2显卡，而我的电影的下面总有一个颜色奇怪的带子！ 这个是什么故障？
+A：这是nVidia二进制X驱动的一个bug。这些bug仅出现在TNT/TNT2显卡上，我们什么也干不了。要解决问题，升级到最新版本的nVidia二进制的驱动。如果仍然不行，对nVidia抱怨去吧！
+
+Q：我使用nVidia XYZ显卡，当我单击显示GUI的显示窗口来触发GUI面板时，在我单击的地方出现一个黑色方块。我安装了最新的驱动。
+A：没错，nVidia修正了上一个的错误(上面)，并且引进了新的bug。让我们祝贺他们。更新：据nVidia说，这已经修正了。
+
+Q：当我使用GUI时，如果使用SDL视频输出，会创建第二个视频窗口。
+A：知道，目前GUI不能使用SDL。
+
+Q：啊世界真是残酷...！ SDL只有x11输出，而不是xv！
+A：再试一次x11输出。现在尝试-vo x11 -fs -zoom。看到区别了？没有？！好，给你点启发：SDL的x11 输出只要xv可用就会使用xv，你不必为它担心...注意：你使用-forcexv或-noxv强制/禁用SDL使用xv
+
+5.5 DVD播放
+
+Q: 有没有DVD导航菜单？
+A: MPlayer中的dvdnav支持目前坏了，但正常的播放可以工作。如果你想要华丽的菜单，你需要使用别的播放器比如xine或者Ogle。如果你确实想要DVD导航，送一个补丁.
+
+Q：当播放DVD时，我遇到这个错误：
+mplayer: ifo_read.c:1143: ifoRead_C_ADT_internal: Assertion nfo_length / sizeof(cell_adr_t) >= c_adt->nr_of_vobs' failed.
+A：这是已知的libdvdread 0.9.1/0.9.2的bug。使用libmpdvdkit2，就在MPlayer的源代码中，并且缺省使用
+
+Q：我能在我的Solaris下的可爱的SPARC上编译libdvdread和libdvdcss吗？
+A：天知道...据说它能工作，所以请测试它并且提供反馈。也参阅libdvdread的文件及其主页。我们不是libdvdread的作者。使用libmpdvdkit2，就在MPlayer的源代码中，并且缺省使用。
+
+Q：字幕怎么样？ MPlayer能显示他们吗？
+A：是。参见文档的DVD部分。
+
+Q：我怎么设置我的DVD光驱的地区代码？ 我没有Windows！
+A：使用regionset工具。
+
+Q：我一定需要(setuid) root/setuid fibmap_mplayer来播放DVD吗？
+A：不，这个只用于老式的DVD支持。然而你必须有访问DVD设备适当权限(在/dev/里)。
+
+Q：我在什么地方能找到libdvdread和libdvdcss包？
+A：你不需要。使用libmpdvdkit2，就在MPlayer的源代码中，并且缺省使用。这些包能从Ogle的站点得到。
+
+Q：可以单独播放/编码选定的chapter吗？
+A：可以，试试-chapter选项。
+
+Q：我的DVD回放慢的要死！
+A：使用-cache选项(在man page中介绍)并尝试用hdparm工具为了DVD光驱开启DMA(在文档CD部分有介绍)。
+
+5.6 特性要求
+
+Q：如果MPlayer暂停之后我试图搜索或者按任意键，MPlayer会停止暂停。我愿意能够在暂停时在电影中搜索。
+A：很难在不失去A/V同步的情况下实现这项功能。迄今为止所有尝试都失败了，但补丁是受欢迎的。
+
+Q：我想要+/- 1帧来搜索而不是10秒。
+A：这不会被实现。它曾被实现过，但是它弄乱了A/V同步。如果你愿意就实现它，并且发送补丁。不要要求它。
+
+Q：哪里有Windows版本？
+A：它没有发行，并且将来也不会。看看Windows的情况(开源的ASF分析器，开源的ASF编码器等等)然后你就知道为什么了。我们不想进监狱。顺便说一下，你可以自己编译它，在Cygwin下。
+
+
+5.7 编码
+
+Q：我怎么编码？
+A：读取MEncoder的文档。
+
+Q：我怎么创建VCD？
+A：试试TOOLS目录下的mencvcd脚本。使用它你能把DVD或者其它电影编码成为VCD或者SVCD格式甚至直接把它们刻到CD上。
+
+Q: 我怎么合并两个视频文件？
+A: 这在mplayer-users上面是永不完结的话题。检索邮件文档来寻找完整的答案。这是个复杂的问题，而且你的操作可能因为你想要合并的文件种类有很 大分别。MPEG可以直接连接成一个文件。对于AVI有两个可用的工具avidemux和avimerge(transcode工具集的一部分)，可能可 以完成这个工作。如果两个文件使用同样的分辨率和编解码器，你也可用试试MEncoder。尝试
+cat file1 file2 > file3
+mencoder -ovc copy -oac copy -o out.avi -forceidx file3.avi
+
+Q：我的电视选台器工作，我能用MPlayer听到声音观看视频，但是MEncoder不把音频编码！
+A：Linux的电视音频编码目前还没有实现，我们正在努力。目前它只在BSD上工作。
+
+Q：我不能把DVD字幕编码成AVI！
+A：你必须正确设定-sid选项！
+
+Q：MEncoder启动时出现segfaults！
+A：升级DivX4Linux。
+
+Q：我如何仅对一张DVD中选定的chapter进行编码？
+A：正确使用-chapter选项，像这样： -chapter 5-7
+
+Q：我试图在VFAT文件系统上处理2GB+的文件。能行吗？
+A：不，VFAT不支持2GB+的文件。
+
+Q：为什么MEncoder显示的推荐比特率都是负的？
+A：因为你编码的音频的比特率太大，在任何CD上不能用于电影。检查你是否正确安装了libmp3lame。
+
+
+
+标题: MPlayer - Linux下的电影播放器 
+
+
+
+* 0. 如何阅读本文档
+* 1. 介绍
+o 1.1 历史
+o 1.2 安装
+o 1.3 GUI有吗？
+o 1.4 字幕和OSD
++ 1.4.1 MPlayer自己的字幕格式(MPsub)
++ 1.4.2 安装OSD和字幕
++ 1.4.3 OSD菜单
+o 1.5 RTC
+* 2. 特性
+o 2.1 支持的格式
++ 2.1.1 视频格式
+# 2.1.1.1 MPEG文件
+# 2.1.1.2 AVI文件
+# 2.1.1.3 ASF与WMV文件
+# 2.1.1.4 QuickTime与MOV文件
+# 2.1.1.5 VIVO文件
+# 2.1.1.6 FLI文件
+# 2.1.1.7 RealMedia(RM)文件
+# 2.1.1.8 NuppelVideo文件
+# 2.1.1.9 yuv4mpeg文件
+# 2.1.1.10 FILM文件
+# 2.1.1.11 RoQ文件
+# 2.1.1.12 OGG/OGM文件
+# 2.1.1.13 SDP文件
+# 2.1.1.14 PVA文件
+# 2.1.1.15 GIF文件
++ 2.1.2 音频格式
+# 2.1.2.1 MP3文件
+# 2.1.2.2 WAV文件
+# 2.1.2.3 OGG/OGM文件(Vorbis)
+# 2.1.2.4 WMA与ASF文件
+# 2.1.2.5 MP4文件
+# 2.1.2.6 CD音频
+# 2.1.2.7 XMMS
+o 2.2 支持的编解码器
++ 2.2.1 视频编解码器
+# 2.2.1.1 DivX4/DivX5
+# 2.2.1.2 FFmpeg DivX/libavcodec
+# 2.2.1.3 XAnim编解码器
+# 2.2.1.4 VIVO视频
+# 2.2.1.5 MPEG 1/2视频
+# 2.2.1.6 MS Video1
+# 2.2.1.7 Cinepak CVID
+# 2.2.1.8 RealVideo
+# 2.2.1.9 XViD
+# 2.2.1.10 Sorenson
++ 2.2.2 音频编解码器
+# 2.2.2.1软件AC3解码
+# 2.2.2.2硬件AC3解码
+# 2.2.2.3 libmad支持
+# 2.2.2.4 VIVO音频
+# 2.2.2.5 RealAudio
+# 2.2.2.6 QDesign编解码器
+# 2.2.2.7 Qualcomm编解码器
++ 2.2.3 Win32编解码器导入HOWTO
+# 2.2.3.1 VFW编解码器
+# 2.2.3.2 DirectShow编解码器
+o 2.3 输出设备
++ 2.3.1 视频输出设备
+# 2.3.1.1 MTRR的设置
+# 2.3.1.2 传统显卡的视频输出
+* 2.3.1.2.1 Xv
+o 2.3.1.2.1.1 3dfx显卡
+o 2.3.1.2.1.2 S3显卡
+o 2.3.1.2.1.3 nVidia显卡
+o 2.3.1.2.1.4 ATI显卡
+o 2.3.1.2.1.5 NeoMagic显卡
+o 2.3.1.2.1.6 Trident显卡
+o 2.3.1.2.1.7 Kyro/PowerVR显卡
+* 2.3.1.2.2 DGA
+* 2.3.1.2.3 SDL
+* 2.3.1.2.4 SVGAlib
+* 2.3.1.2.5 Framebuffer输出(FBdev)
+* 2.3.1.2.6 Matrox framebuffer(mga-vid)
+* 2.3.1.2.7 3dfx YUV支持(tdfxfb)
+* 2.3.1.2.8 OpenGL输出
+* 2.3.1.2.9 AAlib -- 文本方式显示
+* 2.3.1.2.10 VESA -- VESA BIOS的输出
+* 2.3.1.2.11 X11
+* 2.3.1.2.12 VIDIX
+o 2.3.1.2.12.1 ATI cards
+o 2.3.1.2.12.2 Matrox cards
+o 2.3.1.2.12.3 Trident cards
+o 2.3.1.2.12.4 3DLabs cards
+* 2.3.1.2.13 DirectFB
+* 2.3.1.2.14 DirectFB/Matrox(dfbmga)
+# 2.3.1.3 MPEG解码器
+* 2.3.1.3.1 DVB
+* 2.3.1.3.2 DXR2
+* 2.3.1.3.3 DXR3/Hollywood+
+# 2.3.1.4 其他可视硬件
+* 2.3.1.4.1 Zoran JPEG解码器
+* 2.3.1.4.2 Blinkenlights
+# 2.3.1.5 TV输出支持
+* 2.3.1.5.1 Matrox G400显卡
+* 2.3.1.5.2 Matrox G450/G550显卡
+* 2.3.1.5.3 ATI显卡
+* 2.3.1.5.4 Voodoo 3
+* 2.3.1.5.5 nVidia
++ 2.3.2 音频输出设备
+# 2.3.2.1 音频/视频同步
+# 2.3.2.2 声卡体验，推荐
+# 2.3.2.3 音频滤镜
+* 2.3.2.3.1 升/降采样率
+* 2.3.2.3.2 改变声道数
+* 2.3.2.3.3 采样格式转换
+* 2.3.2.3.4 延迟
+* 2.3.2.3.5 软件音量控制
+* 2.3.2.3.6 均衡器
+* 2.3.2.3.7 摇动滤镜
+* 2.3.2.3.8 副低音
+* 2.3.2.3.9 环绕音效解码
+# 2.3.2.4 音频插件(已过时)
+* 2.3.2.4.1 升/降采样率
+* 2.3.2.4.2 环绕音效解码
+* 2.3.2.4.3 采样格式转换
+* 2.3.2.4.4 延迟
+* 2.3.2.4.5 软件音量控制
+* 2.3.2.4.6 立体声加强
+* 2.3.2.4.7 音量正规化
+o 2.4 电视输入
++ 2.4.1 编译
++ 2.4.2 使用技巧
++ 2.4.3 示例
+o 2.5 编辑决定列表(EDL)
++ 2.5.1 使用一个EDL文件
++ 2.5.2 制作一个EDL文件
+* 3. 用法
+o 3.1 命令行
+o 3.2 控制
++ 3.2.1 控制配置
+# 3.2.1.1 键名
+# 3.2.1.2 命令
++ 3.2.3 LIRC控制
++ 3.2.4 Slave模式
+o 3.3 网络或管道的流媒体
+* 4. CD/DVD部分
+o 4.1 CD/DVD驱动器
+o 4.2 DVD播放
+o 4.3 VCD播放
+* 5. FAQ部分
+o 5.1 编译
+o 5.2 一般问题
+o 5.3 播放问题
+o 5.4 视频/音频驱动问题(vo/ao)
+o 5.5 DVD播放
+o 5.6 特性要求
+o 5.7 编码
+* 6. 移植
+o 6.1 Linux
++ 6.1.1 Debian安装包的制作
++ 6.1.2 RPM安装包的制作
++ 6.1.3 ARM
+o 6.2 *BSD
++ 6.2.1 FreeBSD
++ 6.2.2 OpenBSD
+o 6.3 Solaris
+o 6.4 Silicon Graphics/Irix
+o 6.5 QNX
+o 6.6 Cygwin
+* 7. 用MEncoder编码
+o 7.1 2或3-pass的MPEG-4("DIVX")编码
+o 7.2 编码为MPEG格式
+o 7.3 电影再缩放
+o 7.4 流复制
+o 7.5 修复索引损坏的AVI文件
++ 7.5.1 合并多个AVI文件
+o 7.6 用libavcodec编解码器族进行编码
+o 7.7 用输入的多幅图像文件(JPEGs或者PNGs)进行编码
+o 7.8 将DVD字幕提取为Vobsub文件
+o 7.9 保持屏幕高宽比
+* 附录A -- 邮件列表
+* 附录B -- 如何报告bugs
+* 附录C -- 已知bug
+* 附录D - MPlayer skin的格式
+o D.1 综述
++ D.1.1 目录
++ D.1.2 图像
++ D.1.3 Skin组件
++ D.1.4 文件
+o D.2 Skin的文件
++ D.2.1 主窗口和播放条
++ D.2.2 副窗口
++ D.2.3 Skin菜单
+o D.3 字体
++ D.3.1 符号
+o D.4 GUI消息
+* 附录E -- 开发者的眼泪
+o GCC 2.96
+o 二进制发行版
+o nVidia
+o Joe Barr
+o 附录F -- 如何发送补丁
+
+0. 如何阅读本文档
+
+如果你是首次安装：请一定要阅读从这里到安装部分结束的所有内容，并且追踪你所遇到的链接。如果你有任何其它问题，返回到目录并搜索主题，读取FAQ，或者尝试用grep搜索整个文件。
+
+这个文件的主要原则：如果一个功能没有被编入文档，那么它不存在。如果我没有说你能用电视选台器音频编码，你就不能。不过健康程度的综合能力还是受欢迎 的。祝你好运。你将需要它的：)，让我引用mplayer-users邮件列表中 Chris Phillips的话作为另一个好的建议：
+
+“我以前说过新手和白痴之间的区别在于：无论，你实际上对一个系统(Linux，汽车，女孩:D) 了解多少，你应该总能够退一步想想并且保持客观，否则，恕我直言你是公认的白痴。跟我住在一起的女孩认定吸尘器坏了因为它不吸进东西，而从不想更换袋子， 因为她以前从来没有做过...那就是愚蠢，而不仅仅是不知道做什么...仅仅因为不是那么熟悉你的环境不是你的a)懒惰和b)忽视的借口。如此多人们似乎 看到“error” 就停止...只有极少数真正读取了冒号另一边的东西”。 
+
+1. 介绍
+
+MPlayer是Linux 上的电影播放器(也能跑在许多其它Unices上，甚至非x86CPU上，参见移植部分)。它能使用众多的本地的，XAnim，RealPlayer，和 Win32 DLL编解码器，播放大多数MPEG，VOB，AVI，OGG，VIVO，ASF/WMV，QT /MOV，FLI，RM，NuppelVideo，yuv4mpeg，FILM，RoQ文件。你还能观看 VideoCD，SVCD，DVD，3ivx，RealMedia，和DivX格式的电影(你根本不需要avifile库)。mplayer的另一个大的 特色是广泛的输出设备支持。它可以在X11，Xv，DGA， OpenGL，SVGAlib，fbdev，AAlib，DirectFB下工作，而且你也能使用GGI和SDL(由此可以使用他们支持的各种驱动模式) 和一些低级的硬件相关的驱动模式(比如Matrox，3Dfx和Radeon，Mach64，Permedia3)！他们大多数支持软件或者硬件缩放，因 此你能在全屏下观赏电影。MPlayer还支持通过硬件MPEG解码卡显示，诸如DVB 和DXR3与Hollywood+。可以使用European/ISO 8859-1,2(匈牙利语，英语，捷克语等等)，西里尔语，韩语的字体的清晰放大并且反锯齿的字幕(支持10种格式)，和on screen display(OSD)你又觉得如何？
+
+这个播放器能够稳如泰山的播放被破坏的MPEG文件(对一些VCD有用)，而它能播放著名的windows media player 都打不开的的坏的AVI文件。甚至，没有索引部分的AVI文件可播放，你能暂时由重建他们的索引-idx选择，或者用MEncoder永久重建，使你能够 在影片中搜索！如你所见，稳定和质量是最重要的事情，而且他的速度是也惊人的。
+
+MEncoder(MPlayer's Movie Encoder)是一个简单的电影编码器，设计用来把MPlayer可以播放的电影 (AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV/VIV/FLI/RM/NUV/NET/PVA)编码成别的MPlayer可以播放 的格式(具体列表见下面)。它可以使用各种编解码器进行编码，例如 DivX4(1或2 passes)，libavcodec， PCM/MP3/VBR MP3音频。同时也有强大的插件系统用于控制视频。
+MEncoder的特性
+
+* 从MPlayer支持的广泛的文件格式和解码器的输入进行编码
+* 编码到ffmpeg的libavcodec的所有编解码器
+* 从V4L兼容的电视选台器输入编码
+* 编码/多路传输成具有适当索引的交错的AVI文件
+* 从外部音频流创建文件
+* 1, 2或3 pass编码
+* VBR的MP3音频 - 重要提示: VBR MP3音频不总是能被Windows的播放器正常的播放！
+* PCM音频
+* 流复制
+* 输入的自动A/V同步(基于PTS，使用-mc 0选项来禁用)
+* 使用-ofps选项进行FPS修正(当把29.97fps的VOB编码成24fps的AVI的时候有用)
+* 使用我们强大的插件系统(crop, expand, flip, postprocess, rotate, scale, rgb/yuv conversion)
+* 可以把DVD/VOB字幕和文本字幕编码到输出文件中
+* 可以把DVD字幕提取为Vobsub格式
+
+计划中的特性
+
+* 更加广泛的编/解码格式/编解码器 (用DivX4/Indeo5/VIVO流创建VOB文件:)
+
+MPlayer和MEncoder按照GNU General Public License Version 2发布。
+1.1 历史
+
+这一年以前开始的... 我(A'rpi)已尝试Linux下的许多播放器 (mtv，xmps，dvdview，livid/oms，videolan，xine，xanim，avifile，xmmp)，但是他们全都有一些问 题。多半与特殊的文件或音频与视频的同步有关。他们中大多数不能同时播放MPEG1，MPEG2和AVI(DivX)文件。许多播放器也有图象质量或者速 度的问题。因此，我已决定自己写/修改一个...
+
+* mpg12play v0.1-v0.3：2000年9月22-25日
+第一次尝试，总共只用了半小时来hack！到版本0.3我都使用www.heroinewarrior.com的libmpeg3，但是它有图象质量和速度的问题。
+* mpg12play v0.5-v0.87：2000年9月28日-10月20日
+用Dirk Farin的DVDview替换了原来的Mpeg codec，它是一个很不错的东东，但是它很慢并且使用写成C++(我讨厌C++!!!)
+* mpg12play v0.9-v0.95pre5：2000年10月21日-11月2日
+Mpeg codec改用Aaron Holtzman与的Michel Lespinasse的libmpeg2(mpeg2dec)。它十分出色，优化过的十分快速的C代码和完美的图象质量以及100%的MPEG标准的一致性。
+* MPlayer v0.01: 2000年11月11日
+第一个MPlayer。
+* MPlayer v0.3-v0.9：2000年11月18日-12月4日
+它包含两个程序： mpg12play v0.95pre6和我的新的简单的基于avifile的Win32 DLL Loader的AVI播放器'avip'。
+* MPlayer v0.10：2001年1月1日
+MPEG和AVI播放器做成了一个二进制文件！
+* MPlayer v0.11pre系列：
+一些新的开发者加入了，从0.11开始mplayer项目成为一个team-work！增加了.ASF文件支持，和OpenDivX(见www.projectmayo.com)编/解码支持。
+* MPlayer v0.17a“IdegCounter”2001年4月27日
+在艰苦发展了4个月的0.11pre之后的正式版本！试试看，然后等着被震撼！成千上万的新的特性添加...当然同时旧的代码也被改进，移去了一些bug
+* MPlayer 0.18“BugCounter”2001年7月9日
+0.17发布2个月后的新的正式版。完全的ASF支持，更多字幕格式，引入libao(类似于libvo但是针对音频)，比以往任何时候更加稳定，如此等等。这肯定是个必需品！
+* MPlayer 0.50“Faszom(C)ounter”2001年10月8日
+Hmm。又一次新版本。众多新的特性，Beta版的GUI，bug修正，新的vo和ao驱动模式，许多系统的移植，包括opensource DivX codecs和更多得多的改进。尝试一下！
+* MPlayer 0.60“RTFMCounter”2002年1月3日
+支持MOV/VIVO/RM/FLI/NUV文件格式，本地的CRAM，Cinepak，ADPCM 编解码器，支持XAnim的二进制的编解码器；DVD字幕支持，首此发布MEncoder，电视截取，缓存，liba52，无数的修正。
+* MPlayer 0.90pre10 "The BirthdayCounter" 2002年11月11日
+尽管这不是一个正式发行版，但我决定提到它因为它诞生在MPlayer v0.01发布的两年之后。生日快乐，MPlayer！
+* MPlayer 0.90rc1 "The CodecCounter" Dec 7, 2002
+同样不是一个正式发行版，但在添加了Sorenson 3(QuickTime)和Windows Media 9的支持之后, MPlayer成为世界上第一个支持所有已知视频格式的电影播放器！
+* MPlayer 0.90“？”日期未知
+
+1.2 安装
+
+在这章中我将试图指引你通过编译和配置MPlayer的过程，它不大容易的，不过也见得一定很难的。如果你遇到不同于我所解释的现象，请的通过搜索这篇文件来查找你的回答。如果你遇到链接，请跟踪他们并且细心读取他们包含的内容。它将花费一些时间，但是它确实是值得的。
+
+你需要一个相当新的系统。在Linux上，推荐2.4.x的内核。
+软件要求：
+
+* binutils -- 建议版本2.11.x。这个程序负责生成MMX/3DNow!/etc指令，因此十分重要。
+* gcc -- 建议版本是：2.95.3(或者2.95.4)和3.2+。永远不要使用2.96或者3.0.x！他们产生错误的MPlayer的代码。如果你决定更换 2.96的gcc，那么不要只是因为新而决定采用3.0.x！3.0.x的早期版本甚至比2.96更buggy。因此不如降级到2.95.x(也把 libstdc++降级，其它程序可能需要它)或者根本不升/降级(但这种情况下请对运行时的问题作好准备)。如果你一定要使用3.x.x请使用最新的版 本，早先的发行版本有各种各样的错误，确信你使用的至少是3.1，它通过测试且工作正常。关于gcc 2.96的bug(仍然没有修正，他们在MPlayer中被绕过！)的详细信息能在这里和FAQ中找到。
+* XFree86 -- 建议总使用最新版本(4.2.1)。正常来说，每个人会这样做，因为XFree86从4.0.2开始，它包含了用来使其能够在它支持的卡片上使用硬件YUV加速(快速的图象显示)的XVideo扩展(在某些地方被称作Xv)。
+确保也安装了开发包，否则它将不工作。
+对于一些视频卡你不需要XFree86。参见下面的列表。
+* make -- 建议总使用最新版本(至少3.79.x)。这通常不太重要。
+* SDL -- 它不是必须的，但是在某些情况下(损坏的音频，在xv驱动模式下奇怪地延迟的显卡)能帮助。总使用最新(1.2.x或以上)的。
+* libjpeg -- 可选的JPEG解码器，用于-mf参数和一些QT MOV文件。如果你计划做jpeg文件的工作那么MPlayer和MEncoder都需要它。
+* libpng -- 推荐也是默认的( M)PNG译码器。GUI需要它。对MPlayer和MEncoder也有用。
+* lame -- 推荐，MEncoder需要用它把音频做MP3编码，建议总使用最新版本(3.90或以上)。
+* libogg -- 可选，用于播放OGG文件格式。
+* libvorbis -- 可选，用于播放OGG Vorbis音频。
+* LIVE.COM Streaming Media -- 可选，用于播放RTSP/RTP流。
+* directfb -- 可选，从http://www.directfb.org获得
+* cdparanoia -- 可选，用于CDDA支持
+* libfreetype -- 可选，用于TTF字体支持。至少需要2.0.9以上版本。
+* libxmms -- 可选, 用于XMMS输入插件的支持。要求至少1.2.7以上版本。
+
+编解码器：
+
+* libavcodec：这个编解码器包可以在多重平台上对H263/MJPEG/RV10/DivX3/DivX4/DivX5/MP41/MP42 /WMV1编码格式的视频流和 WMA(Windows Media Audio)v1/v2的音频流进行解码，它同时也是已知完成这些任务最快的解码器。详细情况请看libavcodec部分。特性
+：
+o 在非x86机器上的对上述的各种编码格式解码。
+o 以上述大多数编码格式编码。
+o 这是可用的最快的DivX/3/4/5和其它MPEG4类型的解码器，高度推荐。
+* Win32编解码器：如果你计划在x86构架的机器上使用MPlayer，你将有可能需要他们。在开始MPlayer的编译之前从我们的编解码器页下载Win32编解码器并安装到/usr/lib/win32，否则将不会编译Win32支持代码！
+注意： avifile项目有类似的codecs包，但是它不同于我们的，如此如果你想使用所有支持的编解码器，安装我们的包(别担心， avifile使用它不会有任何问题).特性：
+o 如果你想要播放或者编码例如以各种各样的硬件压缩器记录的电影，像选台器卡，数码相机(例如：DV，ATI VCR，MJPEG)，你将需要它
+o 如果你想要播放WMV8，WMV9/WMA9格式的电影那就需要它。播放老的以MP41或者MP42视频的ASF(尽管这些文件的音频常常是VoxWare -- 它是通过Win32编解码器解码的)，或者WMV7是不需要它的。
+* QuickTime编解码器：在x86平台上这些编解码器可以用来解码Sorenson v1/v3, RPZA, 和其他QuickTime视频，和QDesign音频流。 安装方法可以在Sorenson视频编解码器部分找到。
+* DivX4与DivX5：关于这编码格式的信息可从DivX4与DivX5节得到。如果你不想用它来编码，你有可能不会想要这个解码器，因为libavcodec(见上面)比它快得多。
+特性：
+o 用MEncoder进行1 pass或2 pass编码。
+o 播放老的DivX3格式的电影比Win32 DLL快得多但是比libavcodec慢！
+o 它封闭源码的，而且仅仅有一个x86平台的版本。
+* XviD：开源的Divx4Linux的编码替代品
+特色：
+o 用MEncoder进行1 pass或2 pass编码。
+o 这是开源的，所以是多平台的。
+o 它的编码速度比divx4快2倍 -- 在几乎相同的质量的情况下
+* XAnim codecs对解码3ivx和Indeo 3/4/5格式，和一些旧的格式的电影效果是最好(全屏幕，硬件YUV缩放)。同时，他们是多平台的，因此这是在非x86平台上播放Indeo的唯一的方 法(当然，除了直接使用XAnim之外:)。但是例如Cinepak电影MPlayer自己的Cinepak解码器播放才有最好的效果！
+* 对于Ogg Vorbis音频解码你需要正确地安装libvorbis。如果可能的话尽量使用deb/rpm包装，或者用源代码编译(这是Vorbis CVS的每天最新的tarball)。
+* MPlayer能使用RealPlayer 8或RealONE的库来播放包括RealVideo 2.0 - 4.0格式的视频和Sipro/Cook格式的音频的文件。安装方法以及关于它的更多信息参见RealMedia文件格式部分！
+
+显卡
+
+一般地显卡可分为两种。一种(较新的显卡)支持硬件缩放和YUV加速，另一种卡没有。
+YUV显卡
+
+他们能在他们显存可以的范围中用任何分辨率显示和缩放(zoom)图像，只占用很少的CPU(即使在放大的时候)，所以你能得到清晰而且飞快的全屏播放。
+
+* Matrox G200与G400与G450与G550显卡：虽然提供了一个Vidix驱动，但还是推荐使用旧的mga_vid内核模块，因为它工作起来好得多。关于其 安装和使用参见mga-vid部分。在编译MPlayer之前进行这些步骤这一点很重要，否则不会编译mga_vid的支持代码。同时也请查看 Matrox的电视输出部分。 如果你是非Linux用户，你的唯一的选择是VIDIX驱动：请看VIDIX部分！
+* 3Dfx Voodoo3与Banshee显卡：请参见tdfxfb部分以了解如何获得大幅的速度提升。在编译MPlayer之前进行这些步骤这一点很重要，否则不 会编译3Dfx的支持代码。也请参考3dfx电视输出部分。如果你使用X，至少使用4.2.0版本，因为4.1.0和更早发行版本的3dfx的Xv驱动是 坏的！
+* ATI显卡：下列的显卡提供了Vidix驱动：Radeon，Rage128， Mach64(Rage XL/Mobility，Xpert98)。也请参考电视输出文档中的ATI电视输出部分，看看Linux与MPlayer是否支持你的显卡的电视输出。
+* S3显卡：Savage和Virge/DX芯片有硬件加速功能。尽可能使用最新的XFree86版本，老的的驱动很buggy。 Savage的芯片的YV12显示有问题，具体细节请看S3 Xv部分。更老的，Trio显卡没有，或只有很慢的硬件加速功能。
+* nVidia显卡：可能是也可能不是视频播放的好的选择。如果你没有一个GeForce2(或更新的)显卡，你不太可能在运行中不遇到bugs。 XFree86中内建的nVidia驱动不支持所有nVidia显卡(GeForce2以下)的硬件YUV加速。你必须从nVidia.com下载 nVidia的封闭源码的驱动。细节参见nVidia Xv驱动部分。同时也查看nVidia电视输出部分如果你希望使用一个电视。
+* 3DLabs GLINT R3和Permedia3：提供VIDIX驱动(pm3-vid)。细节参见VIDIX部分。
+* 其它卡片：不是上述的任何一个？
+o 试试XFree86的驱动(和你的显卡)是否支持硬件加速。细节参见Xv部分。
+o 如果不是，那么你的操作系统不支持你显卡的视频特性:(
+如果它在Windows下能够使用硬件缩放，那并不不意味着在Linux或者其它OS下做同样的事情，它依赖于驱动！大多数制造厂不做Linux驱动也不公布芯片标准 -- 所以，使用他们的显卡你很不走运。看‘非YUV显卡’：
+
+非YUV卡片
+
+可以通过使用软件缩放(使用-zoom或者-vop scale参数，但是我先警告你：这会比较慢)，或者通过切换成较小的的分辨率来实现全屏播放，例如352x288。如果你没有YUV加速，我们推荐使用后一种方法。视频模式切换通过-vm选项打开，它能用于下列驱动：
+
+* 使用XFree86：细节参见X11驱动和DGA驱动部分。推荐使用DGA！也可以尝试通过SDL使用DGA，有时这种办法更好。
+* 不使用XFree86：按下列顺序尝试驱动模式：vesa，fbdev， svgalib，aalib。
+
+某些显卡:
+
+* Cirrus Logic显卡:
+o GD 7548: 板载显卡并用Compaq Armada 41xx系列的笔记本测试。
++ XFree86 3：能使用8/16bpp模式。然而，这个驱动在800x600@16bpp下狂慢而且buggy推荐: 640x480@16bpp
++ XFree86 4: 如果不仅用加速Xserver会在启动后不久失去响应，但这样之后就比XFree86 3慢了。没有XVideo
++ FBdev: 这个显卡只兼容VBE 1.2，所以VESA帧缓冲用不了，当尝试用UniVBE来绕过时, 帧缓冲显示的全是碎片根本用不了。
++ VESA: 这个显卡只兼容VBE 1.2，所以VESA输出用不了。无法通过使用UniVBE解决
++ SVGAlib: 检测成更老的Cirrus芯片. 用-bpp 8可以使用但很慢
+
+声卡
+
+* Soundblaster Live!：通过这种声卡你能使用4或者6(5.1)声道AC3解码而不只是2声道。请看软件AC3解码一节。对于硬件AC3输出你必须使用ALSA 0.9的oss仿真！
+* C-Media的SP/DIF输出：这些声卡可以使用硬件AC3输出，参见硬件AC3解码一节。
+* 其它声卡的特性MPlayer是不支持的。 强烈建议阅读声卡部分！ 
+
+特性
+
+* 考虑一下你是否需要GUI。如果需要，在进行编译之前，请看GUI部分。
+* 如果你想要安装MEncoder(我们的强大的全功能编码器)，请看MEncoder部分。
+* 如果你有一张V4L兼容的电视选台器的卡，并且希望用MPlayer观看/截取并且录制电影，请看电视输入一节。
+* 有一个精致的OSD菜单可供使用。查看OSD菜单部分。
+
+接着编译MPlayer：
+
+./configure
+make
+make install
+
+到此为止，MPlayer就可以使用了。$PREFIX/share/mplayer目录下包含了codecs.conf文件，程序通过它来了解所有的编解码器和他们的能兼容的格式。该文件应该与主程序一起更新！
+检查在你的home目录(~/.mplayer/codecs.conf)中是否有旧的MPlayer版本留下的codecs.conf，如果有就删掉它！
+
+Debian的用户能自己制作.deb安装包，这十分简单。直接在MPlayer的根目录下执行fakeroot debian/rules binary。详尽的步骤请看Debian安装包的制作。
+
+./configure的输出请务必一定阅读，还有configure.log文件，其中的信息会告诉你将什么将被编译，什么将不编译。你也可能需要查看config.h和config.mak文件。
+如果你已经安装一些库文件，却没有被./configure发现，那么检查你是否也安装了正确的头文件(通常在-dev包中)以及他们的版本符合要求。 configure.log通常会告诉你缺什么。
+
+尽管并非必需，你确实应该安装字体以使用OSD和字幕功能。推荐的方法是安装一个TTF字体文件并让MPlayer使用它。阅读字幕和OSD一节来了解其细节。
+1.3 GUI有吗？
+
+GUI需要GTK 1.2.x(它不是GTK的，但是面板是的)。skin被保存为PNG格式，因此你需要安装gtk，libpng(和他们的devel包，一般是gtk- dev和libpng-dev)。你必须在运行./configure时使用--enable-gui来编译它的代码。然后，你可以用下列方法之一打开 GUI方式
+
+* 在你的config文件中添加gui=yes
+* ln -s $PREFIX/bin/mplayer $PREFIX/bin/gmplayer，然后运行gmplayer。 
+
+目前由于技术原因，目前你不能在命令行下使用-gui选项。
+
+因为MPlayer不自带skin，所以如果你想要使用GUI，你必须自己下载它们。参见下载页。他们应该被解压到系统通用的目录 ($PREFIX/share/mplayer/Skin)，或者解压到$HOME/.mplayer/Skin。 MPlayer在默认情况下会在这些的目录里寻找一个叫default的目录，但是你能使用-skin newskin选项或在config文件中添加skin=newskin来强制使用*/Skin/newskin目录下的skin。
+1.4 字幕和OSD
+
+MPlayer能在播放电影的同时显示字幕。目前支持下列格式：
+
+* VobSub
+* OGM
+* CC (closed caption)
+* Microdvd
+* SubRip
+* SubViewer
+* Sami
+* VPlayer
+* RT
+* SSA
+* MPsub
+* AQTitle
+* JACOsub
+
+MPlaye可以把上面列出的字幕格式(除了前三个)转换成下列的格式，使用下列选项：
+
+* MPsub: -dumpmpsub
+* SubRip: -dumpsrtsub
+* Microdvd: -dumpmicrodvdsub
+* JACOsub: -dumpjacosub
+* Sami: -dumpsami
+
+使用不同格式的命令行选项稍有不同：
+VobSub字幕
+
+VobSub字幕包括一个大的(几兆).sub文件，和可选的.idx和/或者.ifo文件。
+用法： 如果你有类似sample.sub，sample.ifo，sample.idx之类的文件 -- 你必需使用-vobsub sample -vobsubid <id>的参数(当然必要时加上路径)。 -vobsubid 选择类似于播放DVD时的-sid，用它你可以选择不同的字幕轨道(语言)。当省略-vobsubid选项时， MPlayer将尝试使用-slang中指定的语言，如果没有找到将使用.idx文件中的langidx项指定的语言，如果这些尝试都失败了，那就将没有 字幕显示。
+其它字幕
+
+其它格式由一个单一的包含时间，位置和正文信息的文本文件组成。
+用法： 如果你有类似sample.txt之类的文件，你必须使用-sub sample.txt (可以加上完整路径)。
+调整字幕的时间和位置
+
+-subdelay<sec>
+延迟字幕< sec >秒。可以是负数。
+-subfps<rate>
+规定字幕文件按每秒多少帧速度显示(浮点数)
+-subpos<0-100>
+规定字幕显示的位置。
+
+如果你使用MicroDVD字幕文件时遇到电影和字幕之间的延迟不断增加的问题，很有可能你的电影文件和字幕文件的帧速度不同。
+请注意，MicroDVD字幕格式用绝对帧数来计时，因此-subfps选项不能用于这种格式。因为MPlayer没法猜测字幕文件的帧速度，你必须手工修改它。在MPlayer的FTP站点的contrib目录中有一个小的perl脚本可以替你做这种转化。
+
+当你播放一个电影时MPlayer将尝试猜测你想要使用的字幕文件，在大多数情况下，字幕文件和电影文件在同一个目录下，并且有相同的名字，你不需要设置有关字幕的选项，只要正常播放电影就可以了，MPlayer会自动播放字幕。
+
+关于DVD字幕，请看DVD一节。
+1.4.1 MPlayer自己的字幕格式(MPsub)
+
+MPlayer引入一种称为MPsub的新的字幕格式。它由Gabucino设计。基本上，其主要的特性是基于动态时间 (虽然它有基于帧的模式)。例如(引自DOCS/tech/mpsub.sub)：
+
+# first number : wait this much after previous subtitle disappeared
+# second number : display the current subtitle for this many seconds
+
+15 3
+A long long, time ago...
+
+0 3
+in a galaxy far away...
+
+0 3
+Naboo was under an attack.
+
+因此如你所见，主要的目标是使字幕的编辑/计时/合并/分割变得容易。同时，如果你 -- 比方说 -- 有一个SSA字幕但是它与你的电影却有严重的时间/延迟问题，你只要简单运行mplayer dummy.avi -sub source.ssa -dumpmpsub。在当前目录中将生成一个dump.mpsub文件，它包含源字幕的正文，但是使用MPsub格式。然后，你就能字幕中自由地添加或 减去任意秒。
+
+字幕的显示使用一种称为'OSD', On Screen Display的技术。OSD被用来显示当前的时间，音量条，进度条等等。
+1.4.2 安装OSD和字幕
+
+你需要一个MPlayer字体包来使用OSD和字幕功能。有许多方法获得它：
+
+* 从MPlayer站点下载准备好的字体包。注意：当前可用的字体限仅限于iso 8859-1/2的支持，但在FTP占的contrib/font部分有其它一些(包括朝鲜语，俄语，8859-8等等)用户制作的字体。
+字体应该有正确的font.desc文件用来把unicode中字符位置映射到字幕文件实际使用的编码页。另一种解决方法是把字幕用utf8格式编码然后 使用-utf8选项或者将字幕文件命名为<video_name>.utf放在与视频文件相同的目录中。将不同的编码页转换到utf8编码可 以通过使用 konwert(Debian)或者iconv(Red Hat)程序完成。
+一些URL：
+o ftp://ftp.mplayerhq.hu/MPlayer/releases/ -- ISO字体
+o ftp://ftp.mplayerhq.hu/MPlayer/contrib/fonts/ -- 用户制作的各种各样的字体
+o http://realtime.ssu.ac.kr/~lethean/mplayer/ -- 朝鲜字体 & RAW的插件
+* 使用TOOLS/subfont-c下的字体制作工具，它是一个能将TTF/Type1等字体转换成mplayer字体包的一个完整的工具。 (详细情况请看TOOLS/subfont-c/README)
+* 使用TOOLS/subfont-GIMP下的GIMP字体生成插件(注：你同时也必须有HSI RAW插件，见下面的URL)
+* 使用TrueType(TTF)字体，通过freetype库。必须使用2.0.9或更高的版本！然后你有两种方法：
+o 使用-font /path/to/arial.ttf选项来在每次播放时指定一个TrueType字体文件/LI>
+o 创建一个符号链接：ln -s /path/to/arial.ttf ~/.mplayer/subfont.ttf
+
+如果你使用非TTF字体，把你下载的文件UNZIP到~/.mplayer或者$PREFIX/share/mplayer。然后将其中之一改名或者符合 链接为font(例如：ln -s ~/.mplayer/arial-24 ~/.mplayer/font)。你现在应该在电影的左上角看见一个计时器(用"o"键可以关上它)。
+
+OSD有4种状态：(用'o'键切换)
+
+* 音量条+进度条(默认)
+* 音量条+进度条+计时器+搜索中显示文件位置百分比
+* 音量条+进度条+计时器+媒体总时间
+* 只有字幕
+
+你能通过在config文件中设置osdlevel=变量，或者用命令行选项-osdlevel来改变默认行为。
+1.4.3 OSD菜单
+
+MPlayer有一个完全用户自定义的OSD菜单接口。
+
+注意：Preferences菜单目前不能使用!
+安装
+
+1. 编译MPlayer时在./configure时加上--enable-menu参数
+2. 确保你安装了OSD字体
+3. 把etc/menu.conf复制到你的.mplayer目录
+4. 把etc/input.conf复制到你的.mplayer目录，或者系统通用的MPlayer配置目录(默认为：/usr/local/etc/mplayer)
+5. 检查并编辑input.conf来启用菜单控制键(在那里有描述).
+6. 像下面的例子这样启动MPlayer：
+$ mplayer -menu file.avi
+7. 按你所定义的菜单键
+
+1.5 RTC
+在MPlayer中有三种计时方法。
+
+* 使用老方法，你不必做任何事情。它使用usleep()调整A/V同步，达到+/-10ms的准确性。但有些情况下同步应该调整的更精确。
+* 新的定时器代码使用PC的RTC(Real Time Clock)完成这个任务，因为它有精确到1ms的计时器。当它可用时会自动使用它，但需要root权限，或一个setuid root的二进制的MPlayer或者一个适当配置的内核。
+如果你使用2.4.19pre8或以上的内核你能通过/proc文件系统来调整普通用户的最大RTC频率。使用下列命令来允许普通用户使用RTC：
+
+echo 1024 > /proc/sys/dev/rtc/max-user-freq
+如果你没有这么新的内核，你也可以修改drivers/char/rtc.c中的一行并且重新编译你的内核。找到下面这一段
+
+* We don't really want Joe User enabling more
+* than 64Hz of interrupts on a multi-user machine.
+*/
+if ((rtc_freq > 64) && (!capable(CAP_SYS_RESOURCE)))
+
+
+把64改成1024。当然你应该确实明白你做了什么。
+你能在状态行上看到新的计时器的效果。
+一些使用speedstep功能CPU的笔记本的BIOS的电源管理不能很好的与RTC协同工作。音频和视频可能会不同步。在给你的笔记本加电之前将外部 电源接上似乎会有帮助。你总能用-nortc选项关闭RTC支持。一些硬件连接器(在ALi1541主板上使用非DMA的DVD光驱上)RTC定时器的使 用会造成跳跃的播放。在这些情况下，推荐使用下面的方法。
+* 第三个定时器代码可以用-softsleep选项打开。它有RTC的效果，但是它不使用RTC。另一方面，它要使用更多的CPU。
+
+注意：永远不要将setuid root的MPlayer安装在多用户系统上！这显然会让任何人得到root权限。
+2. 特性
+2.1 支持格式
+2.2 支持的编解码器
+2.3 视频 & 音频输出模式
+2.4 电视输入
+
+这段将要如何能够使用V4L兼容的电视选台器观看与截取。电视相关的选项和键盘控制的描述请看man page。
+2.4.1 编译
+
+1. 首先，你必须重新编译。./configure将自动检测v4l的内核头文件和/dev/video* 输入的存在。如果他们存在，电视支持将被编译(检查./configure的输出)。
+2. 确保你的选台器能被别的Linux中的电视软件使用，例如xawtv。
+
+2.4.2 使用技巧
+可用选项的完整列表在manual page中。这里只是一些使用技巧：
+
+* 使用channels选项。例如:
+-tv on:channels=26-MTV1,23-TV2
+解释：使用这个选项，只有26和23频道可以使用，当频道切换时会有一个显示频道名的精致的OSD文字。频道名中的空格必须用"_"代替。
+* 选择完整的图像分辨率。输出图像的分辨率必须能够被16整除。
+* 如果你截取视频的垂直分辨率比完整分辨率的一半还高(PAL制是288，NTSC是240)，确保你打开非交错选项，否则你得到的电影将在高速运动的场景 中发生扭曲，而且由于交错模式产生大量的细节消耗很多带宽，比特率控制器很可能无法获得指定的比特率。你能使用-vop pp=DEINT_TYPE打开非交错选项。一般来说pp=lb工作的不错，但这可能取决于个人的设定。查看manual中的别的非交错算法，都尝试一 下。
+* 切割到无用的空间。当你截取视频时，边界区域通常时黑的或者包含一些噪音。这同样不必要的消耗了很多带宽。更精确的说不是那些黑的区域本身而是在黑的和更 亮的视频图像之间的形状变换消耗带宽，但现在这并不重要。在你开始截取之前，调整crop选项的参数使所有边缘的废物都被切割掉。同时，别忘了保持完整的 输出图像的分辨率。
+* 注意CPU的工作量。它在大多数时间不应该超过90%的界限。如果你有一个大的截取的缓冲区，MEncoder可以忍受几秒钟的过载但不能再多了最好把3D的OpenGL屏保和类似的东西关掉。
+* 不要搞乱系统时钟。MEncoder使用系统时钟进行A/V同步。如果你调试系统时钟(特别是把时间往后调)，MEncoder会产生混乱而你将会丢失 帧。这将是一个重要的问题如果你挂在一个网络上并且运行着某种时间同步软件比如NTP，如果你希望可靠的截取，那么在你截取的过程中你必须把NTP关掉。
+* 不要改变outfmt除非你知道你在干什么或者你的芯片/驱动确实不支持默认值(YV12色彩空间)。在老版本的MPlayer/MEncoder 中必须指定输出格式。这个问题在现在的发行版中应该被修正而不再需要指定outfmt，默认值适合大多数应用目的。例如，你用libavcodec把截取 的内容编码成DivX并指定outfmt=RGB24希望提高截取图像的质量， 所截取的图像在其后的过程中将重新转换回YV12，所以你获得的唯一效果就是消耗了大量的CPU。
+* 要指定I420色彩空间(outfmt=i420)，由于与Intel Indeo video编解码器的fourcc冲突，你必须增加一个选项-vc rawi420
+* 有很多方法可以截取音频。你可以通过用外部电缆线将显卡和声卡的line-in连接起来，用声卡截取音频，或者使用bt878芯片内建的ADC。在后一种 情况下，你需要装载btaudio驱动。阅读linux/Documentation/sound/btaudio文件(在内核的源码树中，不是 MPlayer的)来了解使用这个驱动的方法。
+* 如果MEncoder无法打开音频设备，确保它们真的可用。可能是声音服务器比如arts(KDE)或者esd(GNOME)的问题。如果你有一块全双工 的声卡(现在几乎任何像样的声卡都支持它)，而你又在使用KDE，检查声音服务器设置菜单中的"全双工"选项。
+
+2.4.3 示例
+
+伪输出，到AAlib：)
+mplayer -tv on:driver=dummy:width=640:height=480 -vo aa
+
+从标准的V4L输入
+mplayer -tv on:driver=v4l:width=640:height=480:outfmt=i420 -vc rawi420 -vo xv
+
+一个更复杂的例子。它使用MEncoder截取完整的PAL图像，切掉边缘的空白，输出非交错图像使用线性混合算法。音频使用LAME编解码器按固定比特率 64kbps压缩。这个设置适合用来截取电影。
+mencoder -tv on:driver=v4l:width=768:height=576 \
+-ovc lavc -lavcopts vcodec=mpeg4:vbitrate=900 \
+-oac mp3lame -lameopts cbr:br=64 \
+-vop pp=lb,crop=720:544:24:16 -o output.avi
+
+这个加上了重新缩放图像到384x288并把视频用高质量模式压缩到350kbps的比特率。vqmax选项放宽量化器从而允许视频压缩器在牺牲质量的前提下达到如此低的比特率。这可以用来截取长的电视连续剧，在那种用途下视频质量并不非常重要。
+mencoder -tv on:driver=v4l:width=768:height=576 \
+-ovc lavc -lavcopts vcodec=mpeg4:vbitrate=350:vhq:vqmax=31:keyint=300 \
+-oac mp3lame -lameopts cbr:br=48 \
+-vop scale=384:288,pp=tn/lb,crop=720:540:24:18 -sws 1 -o output.avi
+也可以在-tv选项中设置一个较小的分辨率而忽略软件缩放选项但是上面的方法使用最大的可用信息而且对噪音更有抵抗力。bt8x8芯片由于硬件的限制只能在水平方向上作点平均。
+2.5 编辑决定列表(EDL)
+
+编辑决定列表(EDL)系统允许你在播放的时候自动在视频的一部分跳过或者静音，基于一个电影相关的EDL配置文件。
+
+这对那些想用"家庭友好"模式观赏电影的人有用。你可以根据你个人的设定从一部电影里切掉任何暴力，亵渎，Jar-Jar Binks ..的内容。除了这之外，它还有别的用途，比如自动跳过你正在观看的视频文件中的广告。
+
+EDL文件的格式相当简陋。当EDL达到一定的成熟度的时候，可能会使用一个基于XML的文件格式(保持对原来的EDL格式的向下兼容)。
+
+在目前的EDL实现中最大的EDL输入限制为1000。如果你碰巧需要更多，修改edl.h文件中的#define MAX_EDL_ENTRIES。
+2.5.1 使用EDL文件
+
+在你运行MPlayer的时候加上-edl <filename>参数，filename是你希望应用在视频上的EDL文件的文件名。
+2.5.2 制作EDL文件
+
+目前EDL文件的格式为：
+[begin second] [end second] [action]
+
+seconds是浮点数而action可以是0代表跳过或者1代表静音。例如：
+
+5.3 7.1 0
+15 16.7 1
+420 422 0
+
+这将跳过视频的5.3秒到7.1秒的部分，然后在15秒时静音，在16.7秒处取消静音跳过视频的从420秒到422秒的部分。这些动作将在播放计时器达到文件中指定的时间时被执行。
+
+要创建一个用来工作的EDL文件，使用-edlout <filename>选项，在播放过程中，当你想标记将前两秒跳过时，按i。一个相应的输入将写入文件。你可以回头调整生成的EDL文件。
+
+3. 用法
+
+3.1 命令行
+
+MPlayer使用一个复杂playtree格式。它包括写在最前面作为全局设置的选项(例如mplayer -vfm 5)，和写在文件名之后，仅仅作用于给定的文件名或者URL或者随便什么的选项(例如mplayer -vfm 5 movie1.avi movie2.avi -vfm 4)。
+你能使用{和}给文件名与URL分组。它对-loop选项很有用：mplayer { 1.avi -loop 2 2.avi } -loop 3命令将按以下顺序播放文件： 1 1 2 1 1 2 1 1 2
+单一文件 mplayer [options] [path/]filename
+多个文件 mplayer [default options] [path/]filename1 [options for filename1] filename2 [options for filename2] ...
+VCD mplayer [options] -vcd trackno [-cdrom-device /dev/cdrom]
+DVD mplayer [options] -dvd titleno [-dvd-device /dev/dvd]
+WWW mplayer [options] http://site.com/file.asf(也可以使用playlist)
+RTSP mplayer [options] rtsp://server.example.com/streamName
+
+最新版本的MPlayer也可以象Xine一样接受URL风格的VCD和DVD轨道： mplayer dvd://1或者mplayer vcd://1
+
+mplayer -vo x11 /mnt/Films/Contact/contact2.mpg
+mplayer -vcd 2
+mplayer -afm 3 /mnt/DVDtrailers/alien4.vob
+mplayer -dvd 1 -dvd-device /dev/hdc
+mplayer -abs 65536 -delay -0.4 -nobps ~/movies/test.avi
+
+3.2 控制
+
+MPlayer有一个完全可配置的，命令驱动的控制层使你可以键盘，鼠标，游戏杆或遥控器(使用LIRC)控制MPlayer。完整的键盘控制列表参见man page。
+3.2.1 控制键的配置方法
+
+MPlayer允许你使用一个简单的config文件把任何键或按钮绑定为任何一个MPlayer控制命令。句法是键名后加命令。缺省config文件 是$HOME/.mplayer/input.conf但是-input conf 选项可以重新指定(相对路径是相对于$HOME/.mplayer的)。
+
+例子：
+
+##
+## MPlayer input control file
+##
+
+RIGHT seek +10
+LEFT seek -10
+- audio_delay 0.100
++ audio_delay -0.100
+q quit
+> pt_step 1
+< pt_step -1
+ENTER pt_step 1 1
+
+3.2.2.1 键名
+
+运行mplayer -input keylist你将得到一个完整的列表
+键盘：
+
+* Any printable character
+* SPACE
+* ENTER
+* TAB
+* CTRL
+* BS
+* DEL
+* INS
+* HOME
+* END
+* PGUP
+* PGDWN
+* ESC
+* RIGHT
+* LEFT
+* UP
+* DOWN
+
+鼠标(只在X下支持)：
+
+* MOUSE_BTN0 (左键)
+* MOUSE_BTN1 (右键)
+* MOUSE_BTN2 (中键)
+* MOUSE_BTN3 (滚轮)
+* MOUSE_BTN4 (滚轮)
+* ...
+* MOUSE_BTN9
+
+游戏杆(编译时必须打开对游戏杆的支持)
+
+* JOY_RIGHT or JOY_AXIS0_PLUS
+* JOY_LEFT or JOY_AXIS0_MINUS
+* JOY_UP or JOY_AXIS1_MINUS
+* JOY_DOWN or JOY_AXIS1_PLUS
+* JOY_AXIS2_PLUS
+* JOY_AXIS2_MINUS
+* ....
+* JOY_AXIS9_PLUS
+* JOY_AXIS9_MINUS
+
+3.2.2.2 控制命令
+
+通过运行"mplayer -input cmdlist"你可以得到一个完整的已知命令的列表
+
+* seek (int) val [(int) type=0]
+
+搜索电影中的某处
+Type 0 是以+/-val秒搜索。
+Type 1 是以电影的val%搜索
+* audio_delay (float) val
+
+音频延迟val秒
+* quit
+
+退出MPlayer
+* pause
+
+暂停/继续playback
+* grap_frames
+
+有人知道？
+* pt_step (int) val [(int) force=0]
+
+选择playtree中的下一个/上一个输入。Val的符号决定方向.
+如果在要求的方向上没有其他可用entry，除非force非0，否则不会做任何动作。
+* pt_up_step (int) val [(int) force=0]
+
+类似pt_step但它跳转到上一级列表的下一个/上一个。用来跳出playtree的内部循环。
+* alt_src_step (int) val
+
+当一种以上的source可用时选择下一个/上一个(只有asx播放列表支持).
+* sub_delay (float) val [(int) abs=0]
+
+字幕延迟+/-val秒或当abs非0时跳到val秒。
+* osd [(int) level=-1]
+
+切换osd模式或当level>0时把它设为level。
+* volume (int) dir
+
+增加/减少音量
+* contrast (int) val [(int) abs=0]
+* brightness (int) val [(int) abs=0]
+* hue (int) val [(int) abs=0]
+* saturation (int) val [(int) abs=0]
+
+设置/调整视频参数。Val范围从-100到100。
+* frame_drop [(int) type=-1]
+
+切换/设置frame dropping模式。
+* sub_visibility
+
+切换字幕是否可见。
+* sub_pos (int) val
+
+调整字幕位置。
+* vobsub_lang
+
+改变VobSub字幕的语言。
+* vo_fullscreen
+
+切换到全屏
+* tv_step_channel (int) dir
+
+选择下一个/上一个tv频道。
+* tv_step_norm
+
+切换TV制式。
+* tv_step_chanlist
+
+切换频道列表。
+* gui_loadfile
+* gui_loadsubtitle
+* gui_about
+* gui_play
+* gui_stop
+* gui_playlist
+* gui_preferences
+* gui_skinbrowser
+
+GUI的行为
+
+3.2.3 用LIRC控制
+
+Linux红外遥控 -- 使用一个容易制作的home-brewn红外线接收器，(几乎)任意一个的遥控器然后就可以用它来控制你的Linux box了！更多内容见www.lirc.org。
+
+如果你已安装了lirc-package，configure将自动检测到它。如果一切顺利，MPlayer在启动时将显示 "Setting up lirc support..."之类的信息。如果发生错误它将会显示。如果它不显示关于LIRC的任何信息则对LIRC的支持没有编译。就是这样:-)
+
+MPlayer的程序名是 -- 嗯，让我想想看 -- 'mplayer'。你能使用任何mplayer命令甚至传递超过一种命令只要用\n分开他们。不要忘记当有意义的时候(搜索，音量等等)，在.lircrc中开启repeat标记。这是我的.lircrc的摘录：
+
+begin
+button = VOLUME_PLUS
+prog = mplayer
+config = volume 1
+repeat = 1
+end
+
+begin
+button = VOLUME_MINUS
+prog = mplayer
+config = volume -1
+repeat = 1
+end
+
+begin
+button = CD_PLAY
+prog = mplayer
+config = pause
+end
+
+begin
+button = CD_STOP
+prog = mplayer
+config = seek 0 1\npause
+end
+
+如果你不喜欢lirc-config文件的标准位置(~/.lircrc)使用-lircconf <filename>选项指定别的文件。
+3.2.4 Slave方式
+
+Slave方式把允许你为MPlayer建立简单的frontend。当它开启(用-slave选项)时MPlayer 将从stdin读取用new line(\n)分开的命令。
+3.3 网络或管道的流媒体
+
+MPlayer支持通过HTTP, MMS或者RTSP/RTP协议播放网络上的文件。
+
+只要直接把URL地址加到命令行中就可以进行播放。MPlayer也支持http_proxy环境变量，并且在可能的情况下使用**。也可以强行指定使用**：
+
+mplayer http_proxy://proxy.micorsops.com:3128/http://micorsops.com:80/stream.asf
+
+MPlayer能从stdin(不称为管道)输入。例如这样能从FTP上播放：
+
+wget ftp://micorsops.com/something.avi -O - | mplayer -
+
+注意：当使用网络播放功能时推荐打开cache功能：
+
+wget ftp://micorsops.com/something.avi -O - | mplayer -cache 8192 -
+4. FAQ部分
+5. CD与DVD部分
+6. 移植
+6.1 Linux
+
+主要的开发平台是x86上的Linux，尽管MPlayer可以移植到很多别的Linux上。MPlayer的二进制包在很多地方可以获得。但是我们不对任何一个负责，有问题去找这些包的制作者，别找我们。
+6.1.1 Debian安装包的制作
+
+为了制作Debian安装包，在MPlayer的代码的目录下面运行下列命令：
+
+fakeroot debian/rules binary
+
+成为root后你可以像正常情况下一样安装.deb包：
+
+dpkg -i ../mplayer_0.90-1_i386.deb as root.
+
+Christian Marillat一直在制作非官方的Debian MPlayer, MEncoder和字体的安装包，你可以从他的主页(apt-get)获得。
+6.1.2 RPM安装包的制作
+
+Dominik Mierzejewski制作并维护MPlayer的官方的Red Hat RPM安装包。他制作了播放器，GUI，字体，skin和一些驱动还有编解码器的安装包。所有这些都可以从他的主页获得。
+
+Mandrake的安装包可以在P.L.F获得，SuSE在他们的发行版中包括了一个有缺陷的MPlayer版本。如果你想获得全部的功能，你必须从源代码编译。
+6.1.3 ARM
+
+MPlayer可以工作在使用ARM CPU的PDAs例如Sharp Zaurus, Compaq Ipaq上。最简单的获得MPlayer的方法从Openzaurus的安装包服务器下载。如果你像自己编译它，你应该查看OpenZaurus发行版的 buildroot下的mplayer 目录和libavcodec。那里总有最新的用来编译一个代libavcodec的CVS的MPlayer的Makfile和补丁。
+如果你需要一个GUI前端，你可以使用xmms-embedded。
+6.2 *BSD
+
+MPlayer可以运行在FreeBSD, OpenBSD, NetBSD, BSD/OS和Darwin上。有ports/pkgsrc/fink等版本的MPlayer可供使用，比直接使用我们的源代码要容易。
+
+编译MPlayer你需要GNU make(gmake - 本地的BSD的make不能正常工作)和一个比较新的binutils。
+
+如果MPlayer报告找不到/dev/cdrom或者/dev/dvd，创建一个适当的符号链接：
+ln -s /dev/(your_cdrom_device) /dev/cdrom.
+
+要在MPlayer中使用Win32 DLLs你需要使用"option USER_LDT"重新编译内核(除非你用的是FreeBSD -CURRENT，其中这一项是默认的)。
+6.2.1 FreeBSD
+如果你的CPU有SSE，使用"options CPU_ENABLE_SSE"选项重新编译内核来使用它(需要FreeBSD-STABLE，或者使用内核补丁)。
+
+6.2.2 OpenBSD
+
+因为gas的版本不同(relocation vs mmx)的限制，你需要分两步编译： 首先确保non-native的汇编程序当前在PATH中并运行gmake -k，然后在确保使用native版本情况下运行gmake。
+6.3 Solaris
+
+MPlayer在Solaris 2.6或者更新的系统上应该能够正常运行。
+
+在UltraSPARC上，MPlayer利用他们的VIS扩展(相当于MMX)的优势，目前只应用于libmpeg2， libvo以及libavcodec ，但mp3lib没有。你能在400MHz CPU上观看VOB文件。你需要安装mLib。
+
+为编译它你需要GNU make(gmake，/opt/sfw/gmake)，native的Solaris make不能正常工作。你用Solaris的make代替GNU make时的典型的错误信息为：
+
+% /usr/ccs/bin/make
+make: Fatal error in reader: Makefile, line 25: Unexpected end of line seen
+
+在Solaris SPARC上，你需要GNU C/C++编译器；GNU C/C++编译器是否设置使用GNU汇编程序没有什么关系。
+
+在Solaris x86上，你需要GNU汇编程序和GNU C/C++编译器，设置使用GNU的汇编程序！在x86平台上的mplayer代码大量使用MMX，SSE和3DNOW！指令集，使用Sun的汇编程序/usr/ccs/bin/as不能编译通过。
+
+configure脚本将试图查找你的"gcc"命令使用的汇编程序(如果自动检测失败，使用"--as=/whereever/you/have/installed/gnu-as" 选项告诉configure脚本你的系统中GNU的"as"在哪里)。
+
+在Solaris x86系统上使用没有GNU汇编程序的GCC时configure的出错信息为：
+
+% configure
+...
+Checking assembler (/usr/ccs/bin/as) ... , failed
+Please upgrade(downgrade) binutils to 2.10.1...
+
+(解决方法：安装并且使用配置了"--with-as=gas"的gcc)
+
+当不使用GNU as的GNU C编译程序时的典型出错信息是：
+
+% gmake
+...
+gcc -c -Iloader -Ilibvo -O4 -march=i686 -mcpu=i686 -pipe -ffast-math
+-fomit-frame-pointer -I/usr/local/include -o mplayer.o mplayer.c
+Assembler: mplayer.c
+"(stdin)", line 3567 : Illegal mnemonic
+"(stdin)", line 3567 : Syntax error
+... more "Illegal mnemonic" and "Syntax error" errors ...
+
+因为Solaris8 x86的两个bug，不能可靠地播放容量>4GB的DVD：
+
+* The sd(7D) driver on Solaris 8 x86 driver has bug when accessing a disk block >4GB on a device using a logical blocksize != DEV_BSIZE (i.e. CD-ROM and DVD media). Due to a 32bit int overflow, a disk address modulo 4GB is accessed. (http://groups.yahoo.com/group/solari.../message/22516)
+* The similar bug is present in the hsfs(7FS) filesystem code (aka ISO9660), hsfs currently does not support partitions/disks >4GB, all data is accessed modulo 4GB (http://groups.yahoo.com/group/solari.../message/22592)
+
+The hsfs problem can be fixed by installing patch 109764-04 (sparc) / 109765-04 (x86).
+
+在使用UltraSPARC CPU的Solaris上，对有些耗时的操作使用CPU的VIS指令能获得额外的速度提升。在MPlayer中通过Sun的mediaLib中的函数使用VIS加速功能。
+
+mediaLib的VIS加速功能用于mpeg2视频解码和视频输出驱动的颜色转换。
+6.4 Silicon Graphics / IRIX
+
+你可以安装GNU的install程序，并且(如果你没有把它放在你的系统路径中)指定它的位置：
+
+./configure --install-path=PATH
+
+或者你可以使用默认的IRIX 6.5提供的install，那你就必须手动修改Makefile文件，把下面两行：
+
+$(INSTALL) -c -m 644 DOCS/mplayer.1 $(MANDIR)/man1/mplayer.1
+
+$(INSTALL) -c -m 644 etc/codecs.conf $(CONFDIR)/codecs.conf
+
+改成：
+
+$(INSTALL) -m 644 mplayer.1 $(MANDIR)/man1/
+
+$(INSTALL) -m 644 codecs.conf $(CONFDIR)/
+
+然后运行(在MPlayer的源代码目录中)：
+
+cp DOCS/mplayer.1 . ; cp etc/codecs.conf .
+
+然后继续编译和安装。
+6.5 QNX
+
+能工作。你需要下载SDL for QNX并安装它。然后使用-vo sdl:photon和-ao sdl:nto 选项运行MPlayer，速度应该很快。
+
+-vo x11输出将比Linux更加缓慢，因为QNX只有一个十分缓慢的的X仿真。使用SDL。
+6.6 Cygwin
+
+Cygwin的移植仍然很不成熟。目前还不支持Win32 DLLs和OpenGL。SDL据说会扭曲声音和图像或者在某些系统上导致崩溃。补丁总是欢迎的。最好的效果是使用本地的DirectX视频输出驱动 (-vo directx) 和本地的Windows waveout音频驱动(-ao win32)。你应该查阅mplayer-cygwin邮件列表来获得帮助和最新信息。
+
+你必须到MPlayer的目录下，拷贝或者symlinketc/cygwin-inttypes.h到/usr/include/inttypes.h来使MPlayer顺利编译。
+
+为了获得本地的DirectX视频，下载DirectX 7头文件，把它们解压到/usr/include/ 或者/usr/local/include/下然后重新编译。如果图像发生扭曲，用-vo directx:noaccel 把硬件加速关掉试试。
+
+让SDL在Cygwin下工作的方法和文件可以在libsdl的站点找到。
+
+你可以通过播放Windows显示的VCD上的.DAT或者.MPG文件来播放VCD，这样使他工作(改成你的CD-ROM驱动器的盘符):
+
+mplayer d:/mpegav/avseq01.dat
+
+mplayer /cygdrive/d/MPEG2/AVSEQ01.MPG
+
+DVD同样可以，用下面的命令DVD设备设置成你的CD-ROM驱动器：
+
+mplayer -dvd <title> -dvd-device '\\.\d:'
+
+QuickTime DLL据说也能工作。用--enable-qtx-codecs编译并把编解码器放到默认的Windows DLL位置，C:\WINNT\system32或者C:\Windows\system取决于你的Windows的版本。
+7. 用MEncoder编码
+附录A -- 邮件列表
+
+MPlayer有一些公开的邮件列表。除非特别说明否则这些列表的语言是英语。请不要用别的语言或者HTML邮件格式发送消息！一条消息的大小限制是 80k。如果你有更大的东西把它放在可以下载的地方。点击链接就可以订阅。在邮件列表上使用与与usenet上相同的书写和引用规则。请遵守他们，它使阅 读你的邮件的人的生活轻松的多。如果你不知道请阅读编辑消息HOWTO或者(如果你很着急)引用HOWTO。
+
+* MPlayer通告列表：http://mplayerhq.hu/mailman/listinfo/mplayer-announce
+MPlayer发布通告的邮件列表。如果你想获得新特性的通告在此订阅。
+* MPlayer开发者列表：http://mplayerhq.hu/mailman/listinfo/mplayer-dev-eng
+
+这个列表是关于mplayer开发的！ 谈论接口与API的变化，新的库，代码优化，configure修改，另外补丁也应发送到这里。不要在这里发送bug报告，用户问题，特性要求，吵架！这张列表应该保持低流量。
+* MPlayer用户列表：http://mplayerhq.hu/mailman/listinfo/mplayer-users
+o 在这里发送bug报告，(在阅读了已知Bugs一节和报告bug部分之后)
+o 在这里发送特性要求(在阅读整个文件之后)
+o 在这里发送用户问题(在阅读整个文件之后)
+* MPlayer匈牙利用户列表：http://mplayerhq.hu/mailman/listinfo...r-felhasznalok
+o 匈牙利语的列表
+o 主题？让我们看看...迄今为止主要是吵架和RTFM问题:(
+* MPlayer & Matrox G200/G400/G450/G550用户：http://mplayerhq.hu/mailman/listinfo/mplayer-matrox
+在这里发送Matrox相关的问题
+o 关于mga_vid的事情
+o Matrox的官方的beta版驱动(对于X 4.x.x )
+o 还有关于matroxfb电视输出的东东。
+* MPlayer & DVB卡用户：http://mplayerhq.hu/mailman/listinfo/mplayer-dvb
+与被称为DVB的硬件译码器卡有关的事情。(不是DXR3！)
+
+* MPlayer CVS-log：http://mplayerhq.hu/mailman/listinfo/mplayer-cvslog
+
+在这里只能询问CVS的变化。(如果你不理解为什么要做这样的改动或者你有更好的修正或者你注意到在已经提交的补丁中可能存在的bug或问题)确定你要找的开发者阅读这张列表！
+* MPlayer Cygwin移植邮件列表：http://mplayerhq.hu/mailman/listinfo/mplayer-cygwin
+讨论MPlayer的Cygwin移植的邮件列表。
+* MPlayer OS/2移植邮件列表：http://mplayerhq.hu/mailman/listinfo/mplayer-os2
+讨论MPlayer的OS/2移植的邮件列表。
+* MPlayer Weekly News的编辑和翻译的列表：http://mplayerhq.hu/mailman/listinfo/mplayer-mwn
+讨论Weekly News发布的邮件列表。.
+
+注意：http://www.mplayerhq.hu/cgi-bin/htsearch有可供检索的邮件列表文档。
+附录B -- 如何报告bug
+附录C -- 已知Bugs
+
+特殊的系统或CPU相关的bug或问题：
+
+* P3上使用2.2.x内核出现SIGILL(signal 4)：
+问题：2.2.x内核没有适当的(能正常工作的)SSE支持
+解决：把内核升级到2.4.x
+绕过方法：./configure --disable-sse
+* 一般的SIGILL(signal 4)：
+问题：你在不同的机器中编译和运行mplayer(例如在P3上编译在Celeron上跑)
+解决：在你将使用的的机器上编译MPlayer！
+绕过方法：./configure --disable-sse等等选项
+* 运行MEncoder时出现"Internal buffer inconsistency"：
+问题：当用gcc 2.96或者3.x编译lame < 3.90时的已知问题。
+解决：使用lame > =3.90。
+绕过方法：以gcc 2.95.x编译lame并且卸载任何已经安装的lame包，他们可能是用gcc 2.96编译的。
+* 在PPC上MP2/MP3的声音混乱：
+问题：PPC平台上的已知的GCC误编译的bug，目前没有修正。
+绕过方法：使用FFmpeg的(较慢的)MP1/MP2/MP3译码器(-ac ffmpeg)
+* 当缩放+编码时，libmpeg2的sig11：
+问题： 已知的GCC 2.95.2的MMXbug，升级到2.95.3。
+
+各种各样A-V同步和其它音频问题：
+一般的音频延迟或者急跳声音(对所有或者大部分文件存在)：
+
+* 最普遍的： buggy的音频驱动！ -- 试试使用不同的驱动，用-ao oss试试ALSA 0.9的OSS仿真，也试试-ao sdl，有时它有帮助。如果你的文件用-nosound播放正常，你就能确定这是声卡(驱动)的问题。
+* 音频缓冲的问题(缓冲大小检测错误)
+绕过方法：mplayer -abs选项
+* 采样率的问题-- 也许你的声卡不支持你的文件使用的采样率 -- 试试 resampling插件(- aop)
+* 机器太慢(CPU或VGA)
+用-vo null试试看，如果它播放正常，那么你的VGA显卡/驱动太慢了
+绕过方法：买一块更快的显卡或阅读这篇文档关于如何加速的内容
+也试试-framedrop
+
+特定的某一个或一些文件的音频延迟/不同步：
+
+* 损坏的文件
+绕过方法：
+o -ni或-nobps选项(对于非交错的或坏的文件)
+以及/或者
+o -mc 0(对带有糟糕的交错的VBR音频的文件是需要的)
+以及/或者
+o -delay选项或者+/-键在播放时调整延迟时间
+如果没有一个方法有效，请upload这些文件，我们将检查(和修正)。
+* 你的声卡不支持48kHz playback
+绕过方法：买个更好的声卡...或者尝试减少10%的fps(对30fps的电影使用-fps 27)或者使用resampler插件
+* 机器太慢
+(如果A-V不是在0附近，状态行的最后一个数字不断增加)
+绕过方法：-framedrop
+
+完全没有声音：
+
+* 你的文件使用不支持的音频codec
+绕过方法：读取文档并帮助我们添加对它的支持
+
+完全没有图画(全灰/全绿窗口)：
+
+* 你的文件使用不支持的视频codec
+绕过方法：读取文档并帮助我们添加对它的支持
+* 自动选择的codec不能解码文件，试试用-vc或-vfm选项使用其他译码器
+* 你试图用OpenDivX或XviD(-vc odivx)译码器播放DivX 3.x格式的文件 -- 安装Divx4Linux并且重新编译播放器
+
+视频输出问题：
+
+首先注意： -fs -vm和-zoom选项只是推荐，(目前)不是所有驱动器都支持。因此，如果它不起作用那不是bug。只有少数驱动支持缩放，对x11或dga不要指望这个。
+
+OSD与字幕闪烁：
+-- x11驱动器： 抱歉，它现在不能被修正
+-- xv驱动器： 使用-double选项
+
+使用mga_vid时的绿色图象(-vo mga/-vo xmga)：
+-- mga-vid没有正确检测你的显卡的显存大小，使用mga_ram_size选项重新载入
+附录D -- MPlayer skin的格式
+附录E -- 开发者的眼泪
+附录F -- 如何发送补丁
+
